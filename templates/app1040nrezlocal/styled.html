@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+	<div class="container">
+		<h3>Input your details</h3>
+		
+		<form class="form-horizontal" role="form">
+		  <div class="form-group">
+			<label for="inputEmail3" class="col-sm-3 control-label">L3 - Wages, salaries, tips, etc.</label>
+			<div class="col-sm-9">
+				<div class="input-group">
+				  <span class="input-group-addon">$</span>
+				  <input type="text" class="form-control" id="L3" placeholder="Input your L3 value">
+				  <span class="input-group-addon">.00</span>
+				</div>
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label for="inputEmail3" class="col-sm-3 control-label">L4 - Taxable refunds, credits, or offsets of state and local income taxes</label>
+			<div class="col-sm-9">
+				<div class="input-group">
+				  <span class="input-group-addon">$</span>
+				  <input type="text" class="form-control" id="L4" placeholder="Input your L4 value">
+				  <span class="input-group-addon">.00</span>
+				</div>
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label for="inputEmail3" class="col-sm-3 control-label">L5 - Scholarship and fellowship grants.</label>
+			<div class="col-sm-9">
+				<div class="input-group">
+				  <span class="input-group-addon">$</span>
+				  <input type="text" class="form-control" id="L5" placeholder="Input your L5 value">
+				  <span class="input-group-addon">.00</span>
+				</div>
+			</div>
+		  </div>		  <div class="form-group">
+			<label class="col-sm-3 control-label">L7 - Add lines 3, 4, 5</label>
+			<div class="col-sm-9">
+			  <p class="form-control-static" id="L7">0</p>
+			</div>
+		  </div>
+		</form>
+	</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+	
+	 <script>
+ 
+    // Your code goes here.
+	$( document ).ready(function() {
+		
+		var L3_value = 0;
+		var L4_value = 0;
+		var L5_value = 0;
+		
+		$( "#L3" )
+		  .keyup(function() {
+			L3_value = Number($( this ).val());
+			print_subtotal();
+		  })
+		  .keyup();
+		  
+		$( "#L4" )
+		  .keyup(function() {
+			L4_value = Number($( this ).val());
+			print_subtotal();
+
+		  })
+		  .keyup();
+
+		$( "#L5" )
+		  .keyup(function() {
+			L5_value = Number($( this ).val());
+			print_subtotal();
+
+		  })
+		  .keyup();		  
+		
+		// helper function for adding up the inputs
+		function print_subtotal(){
+			$( "#L7" ).text( numberWithCommas(L3_value + L4_value + L5_value) );
+		}
+		
+		// helper function for converting number to comma style
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+	})
+	
+    </script>
+  </body>
+</html>
