@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from app1040nrezlocal.models import TaxForm
 from app1040nrezlocal.forms import TaxModelForm
 
+from app1040nrezlocal.gen_fdf import generate
 import subprocess
 
 def index(request):
@@ -50,8 +51,13 @@ def index(request):
             # Now call the index() view.
             # The user will be shown the homepage.
 			
-            subprocess.call(['java', '-jar', 'sqlite2pdf.jar'])
+            #subprocess.call(['java', '-jar', 'sqlite2pdf.jar'])
             
+			# generate FDF
+            generate()
+			# call PDFTK
+            subprocess.call(['pdftk', 'f1040nre.pdf', 'fill_form', 'data.fdf', 'output', 'static/f1040nre_output.pdf'])
+			
             return outputPdf(request)
         else:
             # The supplied form contained errors - just print them to the terminal.
