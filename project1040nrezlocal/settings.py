@@ -17,7 +17,7 @@ PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
 PROJECT_PATH = os.path.abspath(PROJECT_PATH)
 TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
 STATIC_PATH = os.path.join(PROJECT_PATH,'static')
-DATABASE_PATH = os.path.join(PROJECT_PATH, '1040nrezlocal.db')
+DATABASE_PATH = os.path.join(PROJECT_PATH, 'f1040nrezlocal.db')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
