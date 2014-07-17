@@ -21,15 +21,17 @@
 
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}
-                {{ hidden }}
+
+						 {{ hidden }}
+
             {% endfor %}
 
             {% for field in form.visible_fields %}
-			<div class = "form-group">
-				<div class="col-md-4">
-					{{ field.help_text }}
+			<div class = "form-group" id= {{field.name|add:"_div"}}>
+				<div class="col-sm-4">
+					{{ field.label }}
 				</div>
-				<div class="col-md-8">
+				<div class="col-sm-8">
 					 {{ field }}
 				</div>
 			</div>
@@ -40,5 +42,63 @@
             <input type="submit" name="submit" value="Submit form" />
         </form>
 		</div>
+		
+		<!-- onLoad, hide hidden divs -->
+		<script>
+		$( document ).ready(function() {
+		  $("[id^=Q04_01_BOX]").hide();
+		  $("#Q01_01_div").hide();
+		});
+		</script>
+		
+		<!-- whenever there are radio box changes-->
+		<script>
+		$("input:radio").change(function() {
+
+			// --- Tax Treaty Amount ---
+			// China is checked
+			if ($("#id_Q02_01_0").is(":checked")){
+				$("#id_Q02_01_01").val(5000);
+			// Mexico is checked
+			} if ($("#id_Q02_01_1").is(":checked")){
+				$("#id_Q02_01_01").val(3000);			
+			}
+
+			// --- Single or Married ---
+			// Single is checked
+			if ($("#id_Q03_01_0").is(":checked")){
+				$("#id_Q03_01_01").val(3900);
+				$("#id_Q03_01_02").val(6100);
+			// Married is checked
+			} if ($("#id_Q03_01_1").is(":checked")){
+				$("#id_Q03_01_01").val(7800);
+				$("#id_Q03_01_02").val(12200);
+			}			
+			
+		});
+		</script>
+		
+		<!-- whenever there are checkbox changes-->
+		<script>
+		$("input:checkbox").change(function() {
+		
+			// --- select tax year ---
+			// Prior year tax is checked		
+			if ($("#id_Q01_1").is(":checked")){
+				$("#Q01_01_div").show();
+			} else {
+				$("#Q01_01_div").hide();			
+			}
+			
+			// --- select Source of Income ---
+			// W2 is checked
+			if ($("#id_Q04_0").is(":checked")){
+				$("[id^=Q04_01_BOX]").show();
+			} else {
+				$("[id^=Q04_01_BOX]").hide();			
+			}
+			
+		});
+		</script>
     </body>
 </html>
