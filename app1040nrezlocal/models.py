@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class TaxForm(models.Model):
+class model1040NREZ(models.Model):
     A01 = models.CharField(max_length=128)
     A02 = models.CharField(max_length=128)
     A03 = models.CharField(max_length=128, blank=True)
@@ -36,5 +36,27 @@ class TaxForm(models.Model):
     L25 = models.IntegerField(default=0)
     L26 = models.IntegerField(default=0)
 
+    def __unicode__(self):
+        return self.A01 + " " + self.A02
+        
+class modelInput(models.Model):
+    A01 = models.CharField(max_length=128, blank=True, null = True)
+    A02 = models.CharField(max_length=128, blank=True, null = True)
+    Q04_01_BOX1 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX2 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX3 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX4 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX5 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX6 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX12a = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX12b = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX13 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX15 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX16 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX17 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX18 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX19 = models.IntegerField(blank=True, null = True)
+    Q04_01_BOX20 = models.IntegerField(blank=True, null = True)
+		
     def __unicode__(self):
         return self.A01 + " " + self.A02

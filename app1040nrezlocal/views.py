@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
-from app1040nrezlocal.models import TaxForm
+from app1040nrezlocal.models import modelInput
 from app1040nrezlocal.forms import TaxModelForm
 
 from app1040nrezlocal.gen_fdf import generate
@@ -20,42 +20,38 @@ def index(request):
         # Have we been provided with a valid form?
         if form.is_valid():
 
-            fAdd = form.save(commit=False)
+            # fAdd = form.save(commit=False)
             # tax calculation logic
-            fAdd.L07 = fAdd.L03 + fAdd.L04 + fAdd.L05 + fAdd.L06
-            fAdd.L10 = fAdd.L07 - fAdd.L08 - fAdd.L09
-            fAdd.L12 = fAdd.L10 - fAdd.L11
+            # fAdd.L07 = fAdd.L03 + fAdd.L04 + fAdd.L05 + fAdd.L06
+            # fAdd.L10 = fAdd.L07 - fAdd.L08 - fAdd.L09
+            # fAdd.L12 = fAdd.L10 - fAdd.L11
 			
-            if (fAdd.L12 - fAdd.L13) > 0:
-                fAdd.L14 = fAdd.L12 - fAdd.L13
-            else:
-                fAdd.L14 = 0
+            # if (fAdd.L12 - fAdd.L13) > 0:
+                # fAdd.L14 = fAdd.L12 - fAdd.L13
+            # else:
+                # fAdd.L14 = 0
 			
-            fAdd.L15 = fAdd.L14 * 0.1			
-            fAdd.L17 = fAdd.L15 + fAdd.L16	
-            fAdd.L21 = fAdd.L18a + fAdd.L18b + fAdd.L19 + fAdd.L20			
+            # fAdd.L15 = fAdd.L14 * 0.1			
+            # fAdd.L17 = fAdd.L15 + fAdd.L16	
+            # fAdd.L21 = fAdd.L18a + fAdd.L18b + fAdd.L19 + fAdd.L20			
 
-            if (fAdd.L21 - fAdd.L17) > 0:
-                fAdd.L22 = fAdd.L21 - fAdd.L17
-            else:
-                fAdd.L22 = 0	
+            # if (fAdd.L21 - fAdd.L17) > 0:
+                # fAdd.L22 = fAdd.L21 - fAdd.L17
+            # else:
+                # fAdd.L22 = 0	
 
-            if (fAdd.L17 - fAdd.L21) > 0:
-                fAdd.L25 = fAdd.L17 - fAdd.L21
-            else:
-                fAdd.L25 = 0
+            # if (fAdd.L17 - fAdd.L21) > 0:
+                # fAdd.L25 = fAdd.L17 - fAdd.L21
+            # else:
+                # fAdd.L25 = 0
 				
 		    # Save the new category to the database.				
-            fAdd.save()
+            # fAdd.save()
             form.save()
-            # Now call the index() view.
-            # The user will be shown the homepage.
-			
-            #subprocess.call(['java', '-jar', 'sqlite2pdf.jar'])
-            
-			# generate FDF
+           
+            # generate FDF
             generate()
-			# call PDFTK
+            # call PDFTK
             subprocess.call(['pdftk', 'f1040nre.pdf', 'fill_form', 'data.fdf', 'output', 'static/f1040nre_output.pdf'])
 			
             return outputPdf(request)
