@@ -24,10 +24,10 @@
 
             {% for field in form %}
 			<div class = "form-group" id= {{field.name|add:"_div"}}>
-				<div class="col-sm-4">
+				<div class="col-md-4">
 					{{ field.label }}
 				</div>
-				<div class="col-sm-8">
+				<div class="col-md-8">
 					 {{ field }}
 				</div>
 			</div>
@@ -47,6 +47,8 @@
 		});
 		</script>
 		
+        
+        <!-- Known issues: fail to show divs when user press back button --->
 		<!-- whenever there are radio box changes-->
 		<script>
 		$("input:radio").change(function() {

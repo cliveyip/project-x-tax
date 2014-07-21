@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 from app1040nrezlocal.models import modelInput
 from app1040nrezlocal.forms import TaxModelForm
 
-from app1040nrezlocal.gen_fdf import generate_fdf, inputTo1040NREZ
+from app1040nrezlocal.view_helper import generate_fdf, inputTo1040NREZ
 import subprocess
 
 def index(request):
@@ -21,31 +21,7 @@ def index(request):
         if form.is_valid():
 
             # fAdd = form.save(commit=False)
-            # tax calculation logic
-            # fAdd.L07 = fAdd.L03 + fAdd.L04 + fAdd.L05 + fAdd.L06
-            # fAdd.L10 = fAdd.L07 - fAdd.L08 - fAdd.L09
-            # fAdd.L12 = fAdd.L10 - fAdd.L11
-			
-            # if (fAdd.L12 - fAdd.L13) > 0:
-                # fAdd.L14 = fAdd.L12 - fAdd.L13
-            # else:
-                # fAdd.L14 = 0
-			
-            # fAdd.L15 = fAdd.L14 * 0.1			
-            # fAdd.L17 = fAdd.L15 + fAdd.L16	
-            # fAdd.L21 = fAdd.L18a + fAdd.L18b + fAdd.L19 + fAdd.L20			
-
-            # if (fAdd.L21 - fAdd.L17) > 0:
-                # fAdd.L22 = fAdd.L21 - fAdd.L17
-            # else:
-                # fAdd.L22 = 0	
-
-            # if (fAdd.L17 - fAdd.L21) > 0:
-                # fAdd.L25 = fAdd.L17 - fAdd.L21
-            # else:
-                # fAdd.L25 = 0
-				
-		    # Save the new category to the database.				
+            # calculation logic
             # fAdd.save()
             form.save()
            
