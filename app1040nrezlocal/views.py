@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 from app1040nrezlocal.models import modelInput
 from app1040nrezlocal.forms import TaxModelForm
 
-from app1040nrezlocal.gen_fdf import generate
+from app1040nrezlocal.gen_fdf import generate_fdf, inputTo1040NREZ
 import subprocess
 
 def index(request):
@@ -15,7 +15,7 @@ def index(request):
 
     # A HTTP POST?
     if request.method == 'POST':
-        form = TaxModelForm(request.POST)
+        form = TaxModelForm(request.POST or None)
 
         # Have we been provided with a valid form?
         if form.is_valid():
@@ -49,8 +49,9 @@ def index(request):
             # fAdd.save()
             form.save()
            
-            # generate FDF
-            generate()
+            # view helper methods
+            inputTo1040NREZ()
+            generate_fdf()
             # call PDFTK
             subprocess.call(['pdftk', 'f1040nre.pdf', 'fill_form', 'data.fdf', 'output', 'static/f1040nre_output.pdf'])
 			

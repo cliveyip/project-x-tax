@@ -20,13 +20,9 @@
 		  
 
             {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
 
-						 {{ hidden }}
 
-            {% endfor %}
-
-            {% for field in form.visible_fields %}
+            {% for field in form %}
 			<div class = "form-group" id= {{field.name|add:"_div"}}>
 				<div class="col-sm-4">
 					{{ field.label }}
@@ -54,7 +50,15 @@
 		<!-- whenever there are radio box changes-->
 		<script>
 		$("input:radio").change(function() {
-
+        
+			// --- select tax year ---
+			// Prior year tax is checked		
+			if ($("#id_Q01_1").is(":checked")){
+				$("#Q01_01_div").show();
+			} else {
+				$("#Q01_01_div").hide();			
+			}
+            
 			// --- Tax Treaty Amount ---
 			// China is checked
 			if ($("#id_Q02_01_0").is(":checked")){
@@ -82,17 +86,11 @@
 		<script>
 		$("input:checkbox").change(function() {
 		
-			// --- select tax year ---
-			// Prior year tax is checked		
-			if ($("#id_Q01_1").is(":checked")){
-				$("#Q01_01_div").show();
-			} else {
-				$("#Q01_01_div").hide();			
-			}
+
 			
 			// --- select Source of Income ---
 			// W2 is checked
-			if ($("#id_Q04_0").is(":checked")){
+			if ($("#id_Q04_a").is(":checked")){
 				$("[id^=Q04_01_BOX]").show();
 			} else {
 				$("[id^=Q04_01_BOX]").hide();			
