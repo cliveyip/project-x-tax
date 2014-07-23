@@ -15,7 +15,7 @@ def inputTo1040NREZ():
     f.refnum = i.id
     f.INFOL01 = i.A01
     f.INFOL02 = i.A02
-    f.F1040NREZL03 = i.Q04_01_BOX1
+    f.F1040NREZL03 = i.W2L01
     f.F1040NREZL04 = 50 #hardcode
     f.F1040NREZL05 = 0
     f.F1040NREZL06 = 0
@@ -23,9 +23,9 @@ def inputTo1040NREZ():
     f.F1040NREZL08 = 0
     f.F1040NREZL09 = helper_F1040NREZL09(f.F1040NREZL07, f.F1040NREZL08)
     f.F1040NREZL10 = f.F1040NREZL07 - (f.F1040NREZL08 + f.F1040NREZL09)
-    f.F1040NREZL11 = 0 #function
+    f.F1040NREZL11 = helper_F1040NREZL11(i.W2L17A, i.W2L19A, i.F1099GL11A, f.F1040NREZL10)
     f.F1040NREZL12 = f.F1040NREZL10 - f.F1040NREZL11
-    f.F1040NREZL13 = 0 #function
+    f.F1040NREZL13 = helper_F1040NREZL13(f.F1040NREZL10)
     f.F1040NREZL14 = max(f.F1040NREZL12 - f.F1040NREZL13, 0)
     f.F1040NREZL15 = 1000 #hardcode
     f.F1040NREZL16 = 0
@@ -76,21 +76,69 @@ def helper_F1040NREZL09(arg1, arg2):
     return F1040NREZL09WPL08
     
 # helper function to get F1040NREZL11
-def helper_F1040NREZL11(arg1):
-    F1040NREZL11WPL01 = 999 # TODO: W2L17T + W2L19T + F1099GL11T
+def helper_F1040NREZL11(arg1, arg2, arg3, arg4):
+    # TODO: W2L17T = W2L17A + W2L17B + W2L17C
+    # arg1 = W2L17A
+    # arg2 = W2L19A
+    # arg3 = F1099GL11A
+    # arg4 = F1040NREZL10
+    F1040NREZL11WPL01 = arg1 + arg2 + arg3
     F1040NREZL11WPL02 = F1040NREZL11WPL01 * 0.8
-    F1040NREZL11WPL03 = arg1 #F1040NREZL10
-    # TODO: check marry status
+    F1040NREZL11WPL03 = arg4
+    # TODO: check marry status (add an arg)
     single = True
     if single:
         F1040NREZL11WPL04 = 150000
     else:
         F1040NREZL11WPL04 = 250000
-     
+    if (F1040NREZL11WPL03 > F1040NREZL11WPL04):
+        F1040NREZL11WPL05 = F1040NREZL11WPL03 - F1040NREZL11WPL04
+    else:
+        F1040NREZL11WPL05 = 0
+    F1040NREZL11WPL06 = F1040NREZL11WPL05 * 0.03
+    F1040NREZL11WPL07 = min(F1040NREZL11WPL02, F1040NREZL11WPL06)
+    F1040NREZL11WPL08 = F1040NREZL11WPL01 - F1040NREZL11WPL07
+    return F1040NREZL11WPL08
+
 # helper function to get F1040NREZL13
-# def helper_F1040NREZL13():
+def helper_F1040NREZL13(arg1):
+# arg1 = F1040NREZL10
 
-
+    # TODO: check marry status (add an arg)
+    single = True
+    if single:
+        F1040NREZL11WPL04 = 150000
+    else:
+        F1040NREZL11WPL04 = 250000
+        
+    if arg1 > F1040NREZL11WPL04:
+        F1040NREZL11WPL03 = arg1
+    else:
+        return 3900  
+        
+    F1040NREZL13WPL02 = 3900 #PE, constant
+    
+    F1040NREZL13WPL05 = F1040NREZL13WPL03 - F1040NREZL13WPL04
+    
+    if single:
+        if F1040NREZL13WPL05 > 61250:
+            return 0
+        else:
+            F1040NREZL13WPL06 = F1040NREZL13WPL05 / 1250
+    else:
+        if F1040NREZL13WPL05 > 122500:
+            return 0
+        else:
+            F1040NREZL13WPL06 = F1040NREZL13WPL05 / 2500     
+    
+    F1040NREZL13WPL07 = F1040NREZL13WPL06 * 0.02
+    
+    F1040NREZL13WPL08 = F1040NREZL13WPL02 * F1040NREZL13WPL07
+    
+    F1040NREZL13WPL09 = F1040NREZL13WPL02 - F1040NREZL13WPL08
+    
+    return F1040NREZL13WPL09
+    
 def generate_fdf():
     
     # TODO: use session ID instead of max ID

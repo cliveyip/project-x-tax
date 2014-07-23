@@ -42,7 +42,8 @@
 		<!-- onLoad, hide hidden divs -->
 		<script>
 		$( document ).ready(function() {
-		  $("[id^=Q04_01_BOX]").hide();
+		  $("[id^=W2L]").hide();
+		  $("[id^=F1099GL]").hide();
 		  $("#Q01_01_div").hide();
 		});
 		</script>
@@ -93,9 +94,15 @@
 			// --- select Source of Income ---
 			// W2 is checked
 			if ($("#id_Q04_a").is(":checked")){
-				$("[id^=Q04_01_BOX]").show();
+				$("[id^=W2L]").show();
 			} else {
-				$("[id^=Q04_01_BOX]").hide();			
+				$("[id^=W2L]").hide();			
+			}
+			// 1099G is checked
+			if ($("#id_Q04_b").is(":checked")){
+				$("[id^=F1099GL]").show();
+			} else {
+				$("[id^=F1099GL]").hide();			
 			}
 			
 		});
