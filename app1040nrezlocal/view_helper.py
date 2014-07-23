@@ -139,6 +139,7 @@ def helper_F1040NREZL13(arg1):
     
     return F1040NREZL13WPL09
     
+# function to generate fdf file for PDFtk use
 def generate_fdf():
     
     # TODO: use session ID instead of max ID

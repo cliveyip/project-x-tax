@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+        <title>Summary</title>
+
+		<!-- Bootstrap -->
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+		<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    </head>
+
+    <body>
+		<div class="container">
+
+        <div class="col-md-8">
+        
+        <h2> Tax Summary </h2>
+        
+        <div class="table-responsive">
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Subtotal</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> 2. Gross Income </td>
+                    <td> </td>
+                    <td> {{SUMMARY02}} </td>
+                </tr>
+                <tr>
+                    <td> 3. Deductions: </td>
+                    <td> </td>
+                    <td> {{SUMMARY03}} </td>
+                </tr>
+                <tr>
+                    <td style="text-indent: 5em;"> Personal exemption </td>
+                    <td> {{SUMMARY03b}} </td>
+                </tr>
+                <tr>
+                    <td style="text-indent: 5em;"> State and local income taxes </td>
+                    <td> {{SUMMARY03c}} </td>
+                </tr>
+                <tr>
+                    <td style="text-indent: 5em;"> Student loan interest </td>
+                    <td> {{SUMMARY03d}} </td>
+                </tr>
+                <tr>
+                    <td style="text-indent: 5em;"> Scholarship and fellowship grants </td>
+                    <td> {{SUMMARY03e}} </td>
+                    <td> ________ </td>
+                </tr>
+                <tr>
+                    <td> 4. Taxable Income </td>
+                    <td> </td>
+                    <td> {{SUMMARY04}} </td>
+                </tr>
+                <tr>
+                    <td> 5. Tax </td>
+                    <td> </td>
+                    <td> {{SUMMARY05}} </td>
+                </tr>
+                <tr>
+                    <td> 6. Other taxes: Unreported social security and Medicare tax </td>
+                    <td> </td>
+                    <td> {{SUMMARY06}} </td>
+                </tr>
+                <tr>
+                    <td> 7. Total Taxes </td>
+                    <td> </td>
+                    <td> {{SUMMARY07}} </td>
+                </tr>
+                <tr>
+                    <td> 8. Tax payments and credit </td>
+                    <td> </td>
+                    <td> {{SUMMARY08}} </td>
+                </tr>
+            </tbody>
+        </table>
+        </div> <!--- close table-responsive --->
+        
+        <a href="/app/output/" class="btn btn-default" role="button">Show PDF</a>
+        </div> <!--- close col-md-9 --->
+		</div> <!--- close container --->
+		
+        
+    </body>
+</html>

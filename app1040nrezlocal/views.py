@@ -1,11 +1,9 @@
 from django.shortcuts import render
-
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
-from app1040nrezlocal.models import modelInput
+from app1040nrezlocal.models import modelInput, modelSummary, model1040NREZ
 from app1040nrezlocal.forms import TaxModelForm
-
 from app1040nrezlocal.view_helper import generate_fdf, inputTo1040NREZ
 import subprocess
 
@@ -31,7 +29,8 @@ def index(request):
             # call PDFTK
             subprocess.call(['pdftk', 'f1040nre.pdf', 'fill_form', 'data.fdf', 'output', 'static/f1040nre_output.pdf'])
 			
-            return outputPdf(request)
+            return summary(request)
+            #return outputPdf(request)
         else:
             # The supplied form contained errors - just print them to the terminal.
             print form.errors
@@ -70,3 +69,52 @@ def styled(request):
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
     return render_to_response('app1040nrezlocal/styled.html', context_dict, context)
+
+def summary(request):
+    context = RequestContext(request)
+    
+    # create new summary record
+    s = modelSummary.objects.create()
+    
+    # retrieve the relevant Input record
+    # TODO: use session ID instead of max ID
+    f = model1040NREZ.objects.all().order_by("-id")[0]    
+    
+    # field association/ calculation
+    #s.SUMMARY01 = 
+    s.SUMMARY02 = f.F1040NREZL03 + f.F1040NREZL04 + f.F1040NREZL05
+    s.SUMMARY03 = f.F1040NREZL06 + f.F1040NREZL13 + f.F1040NREZL11 + f.F1040NREZL09 + f.F1040NREZL08
+    s.SUMMARY03a = f.F1040NREZL06
+    #s.SUMMARY03aa = 
+    s.SUMMARY03b = f.F1040NREZL13
+    s.SUMMARY03c = f.F1040NREZL11
+    s.SUMMARY03d = f.F1040NREZL09
+    s.SUMMARY03e = f.F1040NREZL08
+    s.SUMMARY04 = f.F1040NREZL14
+    s.SUMMARY05 = f.F1040NREZL15
+    s.SUMMARY06 = f.F1040NREZL16
+    s.SUMMARY07 = f.F1040NREZL17
+    s.SUMMARY08 = f.F1040NREZL21
+    s.SUMMARY09a = f.F1040NREZL22
+    s.SUMMARY09b = f.F1040NREZL25
+    
+    #TODO - hide if 0
+    
+    context_dict = {#'SUMMARY01': "s.SUMMARY01",
+        'SUMMARY02': s.SUMMARY02,
+        'SUMMARY03': s.SUMMARY03,
+        'SUMMARY03a': s.SUMMARY03a,
+        #'SUMMARY03aa': s.SUMMARY03aa,
+        'SUMMARY03b': s.SUMMARY03b,
+        'SUMMARY03c': s.SUMMARY03c,
+        'SUMMARY03d': s.SUMMARY03d,
+        'SUMMARY03e': s.SUMMARY03e,
+        'SUMMARY04': s.SUMMARY04,
+        'SUMMARY05': s.SUMMARY05,
+        'SUMMARY06': s.SUMMARY06,
+        'SUMMARY07': s.SUMMARY07,
+        'SUMMARY08': s.SUMMARY08,
+        'SUMMARY09a': s.SUMMARY09a,
+        'SUMMARY09a': s.SUMMARY09b,}
+        
+    return render_to_response('app1040nrezlocal/summary.html', context_dict, context)

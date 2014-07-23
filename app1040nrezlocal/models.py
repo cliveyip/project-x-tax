@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class model1040NREZ(models.Model):
     refnum = models.IntegerField("Reference Number", default=0)
     INFOL01 = models.CharField("Your first name and initial", max_length=128)
@@ -39,7 +38,28 @@ class model1040NREZ(models.Model):
 
     def __unicode__(self):
         return self.INFOL01 + " " + self.INFOL02
+
         
+class modelSummary(models.Model):
+    #TODO SUMMARY01 = models.BooleanField("Filing Status", default=True)
+    SUMMARY01 = models.IntegerField("Filing Status", default=0)
+    SUMMARY02 = models.IntegerField("Gross Income", default=0)
+    SUMMARY03 = models.IntegerField("Deductions:", default=0)
+    SUMMARY03a = models.IntegerField("Tax treaty exemption:", default=0)
+    SUMMARY03aa = models.CharField("country", default="Hong Kong", max_length=128)
+    SUMMARY03b = models.IntegerField("Personal exemption", default=0)
+    SUMMARY03c = models.IntegerField("State and local income taxes", default=0)
+    SUMMARY03d = models.IntegerField("Student loan interest", default=0)
+    SUMMARY03e = models.IntegerField("Scholarship and fellowship grants", default=0)
+    SUMMARY04 = models.IntegerField("Taxable Income", default=0)
+    SUMMARY05 = models.IntegerField("Tax", default=0)
+    SUMMARY06 = models.IntegerField("Other taxes: Unreported social security and Medicare tax", default=0)
+    SUMMARY07 = models.IntegerField("Total Taxes", default=0)
+    SUMMARY08 = models.IntegerField("Tax payments and credit", default=0)
+    SUMMARY09a = models.IntegerField("Tax Refundable", default=0)
+    SUMMARY09b = models.IntegerField("Tax Due", default=0)
+
+
 class modelInput(models.Model):
    
     # text input
