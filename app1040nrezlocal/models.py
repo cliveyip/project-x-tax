@@ -4,6 +4,8 @@ class model1040NREZ(models.Model):
     refnum = models.IntegerField("Reference Number", default=0)
     INFOL01 = models.CharField("Your first name and initial", max_length=128)
     INFOL02 = models.CharField("Last name", max_length=128)
+    F1040NREZL01 = models.BooleanField("Single nonresident alien", default=False)
+    F1040NREZL02 = models.BooleanField("Married nonresident alien", default=False)
     F1040NREZL03 = models.IntegerField("Wages, salaries, tips, etc. Attach Form(s) W-2", default=0)
     F1040NREZL04 = models.IntegerField("Taxable refunds, credits, or offsets of state and local income taxes", default=0)
     F1040NREZL05 = models.IntegerField("Scholarship and fellowship grants. Attach Form(s) 1042-S or required statement", default=0)
@@ -41,8 +43,7 @@ class model1040NREZ(models.Model):
 
         
 class modelSummary(models.Model):
-    #TODO SUMMARY01 = models.BooleanField("Filing Status", default=True)
-    SUMMARY01 = models.IntegerField("Filing Status", default=0)
+    SUMMARY01 = models.CharField("Filing Status", default="", max_length=128)
     SUMMARY02 = models.IntegerField("Gross Income", default=0)
     SUMMARY03 = models.IntegerField("Deductions:", default=0)
     SUMMARY03a = models.IntegerField("Tax treaty exemption:", default=0)

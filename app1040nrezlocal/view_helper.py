@@ -12,22 +12,32 @@ def inputTo1040NREZ():
     i = modelInput.objects.all().order_by("-id")[0]
     
     # field association/ calculation
+    # TODO: associate all fields
     f.refnum = i.id
     f.INFOL01 = i.A01
     f.INFOL02 = i.A02
+    if i.Q03_01 == 'a':
+        f.F1040NREZL01 = True
+    if i.Q03_01 == 'b':
+        f.F1040NREZL02 = True
+    single = helper_single_or_married(f.F1040NREZL01, f.F1040NREZL02)
     f.F1040NREZL03 = i.W2L01
     f.F1040NREZL04 = 50 #hardcode
     f.F1040NREZL05 = 0
-    f.F1040NREZL06 = 0
+    # TODO: get L06 from Schedule OI
+    if i.Q02_01 == 'a':
+        f.F1040NREZL06 = 5000
+    if i.Q02_01 == 'b':
+        f.F1040NREZL06 = 3000
     f.F1040NREZL07 = f.F1040NREZL03 + f.F1040NREZL04 + f.F1040NREZL05 + f.F1040NREZL06
     f.F1040NREZL08 = 0
-    f.F1040NREZL09 = helper_F1040NREZL09(f.F1040NREZL07, f.F1040NREZL08)
+    f.F1040NREZL09 = helper_F1040NREZL09(f.F1040NREZL07, f.F1040NREZL08, single)
     f.F1040NREZL10 = f.F1040NREZL07 - (f.F1040NREZL08 + f.F1040NREZL09)
-    f.F1040NREZL11 = helper_F1040NREZL11(i.W2L17A, i.W2L19A, i.F1099GL11A, f.F1040NREZL10)
+    f.F1040NREZL11 = helper_F1040NREZL11(i.W2L17A, i.W2L19A, i.F1099GL11A, f.F1040NREZL10, single)
     f.F1040NREZL12 = f.F1040NREZL10 - f.F1040NREZL11
-    f.F1040NREZL13 = helper_F1040NREZL13(f.F1040NREZL10)
+    f.F1040NREZL13 = helper_F1040NREZL13(f.F1040NREZL10, single)
     f.F1040NREZL14 = max(f.F1040NREZL12 - f.F1040NREZL13, 0)
-    f.F1040NREZL15 = 1000 #hardcode
+    f.F1040NREZL15 = 1000 #hardcoded, TODO: lookup tax table
     f.F1040NREZL16 = 0
     f.F1040NREZL16a = 0
     f.F1040NREZL16b = 0
@@ -48,9 +58,20 @@ def inputTo1040NREZ():
     f.F1040NREZL26 = 0
 
     f.save()
-    
+
+# helper function to convert single from 1040NREZ to a true/ false value
+def helper_single_or_married(arg1, arg2): 
+    # arg1 = f.F1040NREZL01 (single)
+    # arg2 = f.F1040NREZL02 (married)
+    single = True
+    if arg1 == True:
+        single = True
+    if arg2 == True:
+        single = False
+    return single
+
 # helper function to get F1040NREZL09
-def helper_F1040NREZL09(arg1, arg2):
+def helper_F1040NREZL09(arg1, arg2, arg3):
 
     F1040NREZL09WPL01 = 1987 #hardcode
     F1040NREZL09WPL02 = arg1
@@ -76,17 +97,18 @@ def helper_F1040NREZL09(arg1, arg2):
     return F1040NREZL09WPL08
     
 # helper function to get F1040NREZL11
-def helper_F1040NREZL11(arg1, arg2, arg3, arg4):
+def helper_F1040NREZL11(arg1, arg2, arg3, arg4, arg5):
     # TODO: W2L17T = W2L17A + W2L17B + W2L17C
     # arg1 = W2L17A
     # arg2 = W2L19A
     # arg3 = F1099GL11A
     # arg4 = F1040NREZL10
+    # arg5 = single/married
     F1040NREZL11WPL01 = arg1 + arg2 + arg3
     F1040NREZL11WPL02 = F1040NREZL11WPL01 * 0.8
     F1040NREZL11WPL03 = arg4
     # TODO: check marry status (add an arg)
-    single = True
+    single = arg5
     if single:
         F1040NREZL11WPL04 = 150000
     else:
@@ -101,11 +123,11 @@ def helper_F1040NREZL11(arg1, arg2, arg3, arg4):
     return F1040NREZL11WPL08
 
 # helper function to get F1040NREZL13
-def helper_F1040NREZL13(arg1):
+def helper_F1040NREZL13(arg1, arg2):
 # arg1 = F1040NREZL10
-
+# arg2 = single
     # TODO: check marry status (add an arg)
-    single = True
+    single = arg2
     if single:
         F1040NREZL11WPL04 = 150000
     else:
@@ -144,7 +166,14 @@ def generate_fdf():
     
     # TODO: use session ID instead of max ID
     f = model1040NREZ.objects.all().order_by("-id")[0]
-	
+    
+    single = helper_single_or_married(f.F1040NREZL01, f.F1040NREZL02)
+    single_tuple = ()
+    if single:
+        single_tuple=('topmostSubform[0].Page1[0].c1_2_0_[0]', 1)
+    else:
+        single_tuple=('topmostSubform[0].Page1[0].c1_2_0_[1]', 2)
+        
     fields = [('topmostSubform[0].Page1[0].f1_01_0_[0]', f.INFOL01),
             ('topmostSubform[0].Page1[0].f1_02_0_[0]', f.INFOL02), 
              ('topmostSubform[0].Page1[0].f1_10_0_[0]', f.F1040NREZL03), 
@@ -172,9 +201,11 @@ def generate_fdf():
              ('topmostSubform[0].Page1[0].f1_54_0_[0]', f.F1040NREZL24), 
              ('topmostSubform[0].Page1[0].f1_56_0_[0]', f.F1040NREZL25), 
             ('topmostSubform[0].Page1[0].f1_58_0_[0]', f.F1040NREZL26)]    
-            
+    
+    fields.append(single_tuple)
+    
     fdf = forge_fdf("",fields,[],[],[])
-    # TODO: include session ID in fdf file
+    # TODO: include session ID in fdf file name
     fdf_file = open("data.fdf","w")
     fdf_file.write(fdf)
     fdf_file.close()

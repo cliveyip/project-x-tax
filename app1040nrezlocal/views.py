@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 
 from app1040nrezlocal.models import modelInput, modelSummary, model1040NREZ
 from app1040nrezlocal.forms import TaxModelForm
-from app1040nrezlocal.view_helper import generate_fdf, inputTo1040NREZ
+from app1040nrezlocal.view_helper import generate_fdf, inputTo1040NREZ, helper_single_or_married
 import subprocess
 
 def index(request):
@@ -79,13 +79,22 @@ def summary(request):
     # retrieve the relevant Input record
     # TODO: use session ID instead of max ID
     f = model1040NREZ.objects.all().order_by("-id")[0]    
+    i = modelInput.objects.all().order_by("-id")[0] 
     
     # field association/ calculation
-    #s.SUMMARY01 = 
+    single = helper_single_or_married(f.F1040NREZL01, f.F1040NREZL02)
+    if single:
+        s.SUMMARY01 = "Single nonresident alien"
+    else:
+        s.SUMMARY01 = "Married nonresident alien"
     s.SUMMARY02 = f.F1040NREZL03 + f.F1040NREZL04 + f.F1040NREZL05
     s.SUMMARY03 = f.F1040NREZL06 + f.F1040NREZL13 + f.F1040NREZL11 + f.F1040NREZL09 + f.F1040NREZL08
     s.SUMMARY03a = f.F1040NREZL06
-    #s.SUMMARY03aa = 
+    # 'a' = China, 'b' = Mexico
+    if i.Q03_01 == 'a':
+        s.SUMMARY03aa = "China"
+    if i.Q03_01 == 'b':
+        s.SUMMARY03aa = "Mexico"
     s.SUMMARY03b = f.F1040NREZL13
     s.SUMMARY03c = f.F1040NREZL11
     s.SUMMARY03d = f.F1040NREZL09
@@ -100,11 +109,11 @@ def summary(request):
     
     #TODO - hide if 0
     
-    context_dict = {#'SUMMARY01': "s.SUMMARY01",
+    context_dict = {'SUMMARY01': s.SUMMARY01,
         'SUMMARY02': s.SUMMARY02,
         'SUMMARY03': s.SUMMARY03,
         'SUMMARY03a': s.SUMMARY03a,
-        #'SUMMARY03aa': s.SUMMARY03aa,
+        'SUMMARY03aa': s.SUMMARY03aa,
         'SUMMARY03b': s.SUMMARY03b,
         'SUMMARY03c': s.SUMMARY03c,
         'SUMMARY03d': s.SUMMARY03d,
