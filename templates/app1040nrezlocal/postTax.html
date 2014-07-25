@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+        <title>Summary</title>
+
+		<!-- Bootstrap -->
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+		<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    </head>
+
+    <body>
+		<div class="container">
+        
+        <h2> Post Tax interview questions </h2>
+        
+        <form class="form-horizontal" id="category_form" method="post" action="/app/postTax/">
+		  
+            {% csrf_token %}
+
+            {% for field in form %}
+			<div class = "form-group" id= {{field.name|add:"_div"}}>
+				<div class="col-md-4">
+					{{ field.label }}
+				</div>
+				<div class="col-md-8">
+					 {{ field }}
+				</div>
+			</div>
+				{{ field.errors }}
+				
+            {% endfor %}
+
+            <input type="submit" name="submit" value="Sumbit form and get PDF result" />
+            
+        </form>
+        
+        </div> <!--- close col-md-9 --->
+		</div> <!--- close container --->
+		
+        
+    </body>
+</html>

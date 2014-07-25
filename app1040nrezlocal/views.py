@@ -3,8 +3,8 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 
 from app1040nrezlocal.models import modelInput, modelSummary, model1040NREZ
-from app1040nrezlocal.forms import TaxModelForm
-from app1040nrezlocal.view_helper import generate_fdf, inputTo1040NREZ, helper_single_or_married
+from app1040nrezlocal.forms import TaxModelForm, postTaxInputForm
+from app1040nrezlocal.view_helper import generate_fdf, inputTo1040NREZ, postTaxTo1040NREZ, helper_single_or_married
 import subprocess
 
 def index(request):
@@ -25,9 +25,7 @@ def index(request):
            
             # view helper methods
             inputTo1040NREZ()
-            generate_fdf()
-            # call PDFTK
-            subprocess.call(['pdftk', 'f1040nre.pdf', 'fill_form', 'data.fdf', 'output', 'static/f1040nre_output.pdf'])
+
 			
             return summary(request)
             #return outputPdf(request)
@@ -41,19 +39,45 @@ def index(request):
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
     return render_to_response('app1040nrezlocal/index.html', {'form': form}, context)
-	
-def outputPdf(request):
-    # Request the context of the request.
-    # The context contains information such as the client's machine details, for example.
+
+def postTax(request):
+
     context = RequestContext(request)
 
-    # Construct a dictionary to pass to the template engine as its context.
-    # Note the key boldmessage is the same as {{ boldmessage }} in the template!
-    context_dict = {'boldmessage': "I am bold font from the context"}
+    # submit form
+    if request.method == 'POST':
+        form = postTaxInputForm(request.POST or None)
 
-    # Return a rendered response to send to the client.
-    # We make use of the shortcut function to make our lives easier.
-    # Note that the first parameter is the template we wish to use.
+        # Have we been provided with a valid form?
+        if form.is_valid():
+
+            form.save()
+            postTaxTo1040NREZ()
+            return outputPdf(request)
+
+        else:
+
+            print form.errors
+    else:
+
+    # display the form
+        #TODO: session
+        i = modelInput.objects.all().order_by("-id")[0]
+        choiceReadableValue = i.get_Q02_01_display()
+        data={'SCHOILA':choiceReadableValue, 'SCHOILB':choiceReadableValue }
+        form = postTaxInputForm(initial=data)
+
+    return render_to_response('app1040nrezlocal/postTax.html', {'form': form}, context)
+	
+def outputPdf(request):
+
+    context = RequestContext(request)
+    context_dict = {'boldmessage': "I am bold font from the context"}
+    
+    # generate data.FDF then write to PDF
+    generate_fdf()
+    subprocess.call(['pdftk', 'f1040nre.pdf', 'fill_form', 'data.fdf', 'output', 'static/f1040nre_output.pdf'])
+
     return render_to_response('app1040nrezlocal/output_pdf.html', context_dict, context)
 	
 def styled(request):
@@ -91,9 +115,9 @@ def summary(request):
     s.SUMMARY03 = f.F1040NREZL06 + f.F1040NREZL13 + f.F1040NREZL11 + f.F1040NREZL09 + f.F1040NREZL08
     s.SUMMARY03a = f.F1040NREZL06
     # 'a' = China, 'b' = Mexico
-    if i.Q03_01 == 'a':
+    if i.Q02_01 == 'a':
         s.SUMMARY03aa = "China"
-    if i.Q03_01 == 'b':
+    if i.Q02_01 == 'b':
         s.SUMMARY03aa = "Mexico"
     s.SUMMARY03b = f.F1040NREZL13
     s.SUMMARY03c = f.F1040NREZL11

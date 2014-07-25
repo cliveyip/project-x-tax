@@ -37,11 +37,13 @@ class model1040NREZ(models.Model):
     F1040NREZL24 = models.IntegerField("Amount of line 22 you want applied to your 2014 estimated tax", default=0)
     F1040NREZL25 = models.IntegerField("Amount you owe. Subtract line 21 from line 17. For details on how to pay, see instructions", default=0)
     F1040NREZL26 = models.IntegerField("Estimated tax penalty (see instructions)", default=0)
+    
+    F1040NREZSCHOILC = models.BooleanField("Have you ever applied to be a green card holder (lawful permanent resident) of the United States?", default=False)
 
     def __unicode__(self):
         return self.INFOL01 + " " + self.INFOL02
 
-        
+   
 class modelSummary(models.Model):
     SUMMARY01 = models.CharField("Filing Status", default="", max_length=128)
     SUMMARY02 = models.IntegerField("Gross Income", default=0)
@@ -60,12 +62,26 @@ class modelSummary(models.Model):
     SUMMARY09a = models.IntegerField("Tax Refundable", default=0)
     SUMMARY09b = models.IntegerField("Tax Due", default=0)
 
+class modelPostTaxInput(models.Model):
+    SCHOILA = models.CharField("Of what country or countries were you a citizen or national during the tax year?", default="", max_length=128, blank=True, null=True)
+    SCHOILB = models.CharField("In what country did you claim residence for tax purposes during the tax year?", default="", max_length=128, blank=True, null=True) 
+    SCHOILC = models.BooleanField("Have you ever applied to be a green card holder (lawful permanent resident) of the United States?", default=False)
+    SCHOILD1 = models.BooleanField("A U.S. citizen?",  default=False)
+    SCHOILD2 = models.BooleanField("A green card holder (lawful permanent resident) of the United States?",  default=False)
+    SCHOILE = models.CharField("If you had a visa on the last day of the tax year, enter your visa type. If you did not have a visa, enter your U.S. immigration status on the last day of the tax year.", default="", max_length=128, blank=True, null=True)
+    SCHOILF = models.BooleanField("Have you ever changed your visa type (nonimmigrant status) or U.S. immigration status?", default=False)
+    SCHOILFc = models.CharField("If you answered 'Yes,' indicate the date and nature of the change.", default="", max_length=128, blank=True, null=True)
+    SCHOILGc = models.CharField("Date entered United States (mm/dd/yy)",  default="", max_length=128, blank=True, null=True)
+    SCHOILGd = models.CharField("Date departed United States (mm/dd/yy)", default="", max_length=128, blank=True, null=True)
+    SCHOILHa = models.IntegerField("2011", default=0)
+    SCHOILHb = models.IntegerField("2012", default=0)
+    SCHOILHc = models.IntegerField("and 2013", default=0)
 
 class modelInput(models.Model):
    
     # text input
-    A01 = models.CharField("First Name", max_length=128, blank=True, null = True)
-    A02 = models.CharField("Last Name", max_length=128, blank=True, null = True)
+    A01 = models.CharField("First Name", max_length=128, blank=True, null=True)
+    A02 = models.CharField("Last Name", max_length=128, blank=True, null=True)
     
     # choose one
     CHOICES_Q01 = (("a", "Current Year"), ("b", "Prior Year(s)"),)

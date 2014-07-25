@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm, RadioSelect, CheckboxInput
-from app1040nrezlocal.models import modelInput
+from app1040nrezlocal.models import modelInput, modelPostTaxInput
 
 class TaxModelForm(forms.ModelForm):
 
@@ -66,3 +66,9 @@ class TaxModelForm(forms.ModelForm):
             'F1099GL10aA',
             'F1099GL10bA',
             'F1099GL11A',)
+
+            
+class postTaxInputForm(forms.ModelForm):
+    class Meta:
+        model = modelPostTaxInput
+        

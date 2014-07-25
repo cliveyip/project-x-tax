@@ -1,5 +1,5 @@
 from fdfgen import forge_fdf
-from app1040nrezlocal.models import modelInput, model1040NREZ
+from app1040nrezlocal.models import modelInput, model1040NREZ, modelPostTaxInput
 
 # function to asscoiate 1040NREZ form with user input
 def inputTo1040NREZ():
@@ -59,6 +59,21 @@ def inputTo1040NREZ():
 
     f.save()
 
+    
+def postTaxTo1040NREZ():
+    # retrieve the relevant record
+    # TODO: use session ID instead of max ID
+    f = model1040NREZ.objects.all().order_by("-id")[0]
+    
+    # retrieve the relevant record
+    # TODO: use session ID instead of max ID
+    i = modelPostTaxInput.objects.all().order_by("-id")[0]
+    
+    # field association/ calculation
+    # TODO: associate all fields
+    f.F1040NREZSCHOILC = i.SCHOILC
+    
+    f.save()
 # helper function to convert single from 1040NREZ to a true/ false value
 def helper_single_or_married(arg1, arg2): 
     # arg1 = f.F1040NREZL01 (single)
@@ -167,13 +182,28 @@ def generate_fdf():
     # TODO: use session ID instead of max ID
     f = model1040NREZ.objects.all().order_by("-id")[0]
     
+    boolean_tuple = []
+    
     single = helper_single_or_married(f.F1040NREZL01, f.F1040NREZL02)
-    single_tuple = ()
     if single:
-        single_tuple=('topmostSubform[0].Page1[0].c1_2_0_[0]', 1)
+        boolean_tuple+=[('topmostSubform[0].Page1[0].c1_2_0_[0]', 1)]
     else:
-        single_tuple=('topmostSubform[0].Page1[0].c1_2_0_[1]', 2)
+        boolean_tuple+=[('topmostSubform[0].Page1[0].c1_2_0_[1]', 2)]
         
+    if f.F1040NREZSCHOILC == 0:
+        # SchOI_C: have you ever.. green card: No
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_01_0_[1]', 2)]
+    else:
+        # SchOI_C: have you ever.. green card: Yes
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_01_0_[0]', 1)]
+        
+    # ---
+    # FieldName: topmostSubform[0].Page2[0].c2_01_0_[0]
+    # FieldStateOption: 1
+    # ---
+    # FieldName: topmostSubform[0].Page2[0].c2_01_0_[1]
+    # FieldStateOption: 2
+    # ---       
     fields = [('topmostSubform[0].Page1[0].f1_01_0_[0]', f.INFOL01),
             ('topmostSubform[0].Page1[0].f1_02_0_[0]', f.INFOL02), 
              ('topmostSubform[0].Page1[0].f1_10_0_[0]', f.F1040NREZL03), 
@@ -202,7 +232,7 @@ def generate_fdf():
              ('topmostSubform[0].Page1[0].f1_56_0_[0]', f.F1040NREZL25), 
             ('topmostSubform[0].Page1[0].f1_58_0_[0]', f.F1040NREZL26)]    
     
-    fields.append(single_tuple)
+    fields += boolean_tuple
     
     fdf = forge_fdf("",fields,[],[],[])
     # TODO: include session ID in fdf file name
