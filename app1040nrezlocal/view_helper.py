@@ -16,6 +16,7 @@ def inputTo1040NREZ():
     f.refnum = i.id
     f.INFOL01 = i.A01
     f.INFOL02 = i.A02
+    # single or married
     if i.Q03_01 == 'a':
         f.F1040NREZL01 = True
     if i.Q03_01 == 'b':
@@ -37,7 +38,7 @@ def inputTo1040NREZ():
     f.F1040NREZL12 = f.F1040NREZL10 - f.F1040NREZL11
     f.F1040NREZL13 = helper_F1040NREZL13(f.F1040NREZL10, single)
     f.F1040NREZL14 = max(f.F1040NREZL12 - f.F1040NREZL13, 0)
-    f.F1040NREZL15 = 1000 #hardcoded, TODO: lookup tax table
+    f.F1040NREZL15 = helper_tax_table(f.F1040NREZL14, single)
     f.F1040NREZL16 = 0
     f.F1040NREZL16a = 0
     f.F1040NREZL16b = 0
@@ -144,12 +145,12 @@ def helper_F1040NREZL13(arg1, arg2):
     # TODO: check marry status (add an arg)
     single = arg2
     if single:
-        F1040NREZL11WPL04 = 150000
+        F1040NREZL13WPL04 = 150000
     else:
-        F1040NREZL11WPL04 = 250000
+        F1040NREZL13WPL04 = 250000
         
-    if arg1 > F1040NREZL11WPL04:
-        F1040NREZL11WPL03 = arg1
+    if arg1 > F1040NREZL13WPL04:
+        F1040NREZL13WPL03 = arg1
     else:
         return 3900  
         
@@ -175,6 +176,46 @@ def helper_F1040NREZL13(arg1, arg2):
     F1040NREZL13WPL09 = F1040NREZL13WPL02 - F1040NREZL13WPL08
     
     return F1040NREZL13WPL09
+
+# helper function to get F1040NREZL15
+def helper_tax_table(arg1, arg2):
+# arg1 = L14
+# arg2 = single/ married
+    L14 = arg1
+    single = arg2
+    if single:
+        if L14 < 8925:
+            L15 = L14 * 0.1
+        elif L14 < 36250:
+            L15 = L14 * 0.15 + 892.50
+        elif L14 < 87850:
+            L15 = L14 * 0.25 + 4991.25
+        elif L14 < 183250:
+            L15 = L14 * 0.28 + 17891.25
+        elif L14 < 398350:
+            L15 = L14 * 0.33 + 44603.25
+        elif L14 < 400000:
+            L15 = L14 * 0.35 + 115586.25
+        else:
+            L15 = L14 * 0.396 + 116164.75
+    else:
+        if L14 < 17850:
+            L15 = L14 * 0.1
+        elif L14 < 72500:
+            L15 = L14 * 0.15 + 1785.00
+        elif L14 < 146400:
+            L15 = L14 * 0.25 + 9982.50
+        elif L14 < 223050:
+            L15 = L14 * 0.28 + 28457.50
+        elif L14 < 398350:
+            L15 = L14 * 0.33 + 49919.50
+        elif L14 < 450000:
+            L15 = L14 * 0.35 + 107768.50
+        else:
+            L15 = L14 * 0.396 + 125846.00   
+            
+    return L15
+        
     
 # function to generate fdf file for PDFtk use
 def generate_fdf():

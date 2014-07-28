@@ -76,6 +76,7 @@ class modelPostTaxInput(models.Model):
     SCHOILHa = models.IntegerField("2011", default=0)
     SCHOILHb = models.IntegerField("2012", default=0)
     SCHOILHc = models.IntegerField("and 2013", default=0)
+    
 
 class modelInput(models.Model):
    
