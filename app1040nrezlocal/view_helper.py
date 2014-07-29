@@ -1,5 +1,5 @@
 from fdfgen import forge_fdf
-from app1040nrezlocal.models import modelInput, model1040NREZ, modelPostTaxInput
+from app1040nrezlocal.models import modelInput, model1040NREZ, modelF8843, modelPostTaxInput
 
 # function to asscoiate 1040NREZ form with user input
 def inputTo1040NREZ():
@@ -75,6 +75,21 @@ def postTaxTo1040NREZ():
     f.F1040NREZSCHOILC = i.SCHOILC
     
     f.save()
+    
+def postTaxtoF8843():
+    # create new form record
+    f = modelF8843.objects.create()
+
+    # retrieve the relevant record
+    # TODO: use session ID instead of max ID
+    i = modelPostTaxInput.objects.all().order_by("-id")[0]
+
+    # field association/ calculation
+    # TODO: associate all fields
+    f.F8843L01A = i.F8843L01A
+    
+    f.save()
+
 # helper function to convert single from 1040NREZ to a true/ false value
 def helper_single_or_married(arg1, arg2): 
     # arg1 = f.F1040NREZL01 (single)
@@ -278,5 +293,17 @@ def generate_fdf():
     fdf = forge_fdf("",fields,[],[],[])
     # TODO: include session ID in fdf file name
     fdf_file = open("data.fdf","w")
+    fdf_file.write(fdf)
+    fdf_file.close()
+
+# function to generate fdf file for PDFtk use 
+def generate_F8843_fdf():
+    # TODO: use session ID instead of max ID
+    f = modelF8843.objects.all().order_by("-id")[0]
+    fields = [('topmostSubform[0].Page1[0].f1_09_0_[0]',f.F8843L01A),]
+    
+    fdf = forge_fdf("",fields,[],[],[])
+    # TODO: include session ID in fdf file name
+    fdf_file = open("f8843_data.fdf","w")
     fdf_file.write(fdf)
     fdf_file.close()

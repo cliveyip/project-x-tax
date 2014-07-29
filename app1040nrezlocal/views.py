@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 
 from app1040nrezlocal.models import modelInput, modelSummary, model1040NREZ
 from app1040nrezlocal.forms import TaxModelForm, postTaxInputForm
-from app1040nrezlocal.view_helper import generate_fdf, inputTo1040NREZ, postTaxTo1040NREZ, helper_single_or_married
+from app1040nrezlocal.view_helper import generate_fdf, generate_F8843_fdf, inputTo1040NREZ, postTaxTo1040NREZ, postTaxtoF8843, helper_single_or_married
 import subprocess
 
 def index(request):
@@ -53,6 +53,7 @@ def postTax(request):
 
             form.save()
             postTaxTo1040NREZ()
+            postTaxtoF8843()
             return outputPdf(request)
 
         else:
@@ -63,6 +64,7 @@ def postTax(request):
     # display the form
         #TODO: session
         i = modelInput.objects.all().order_by("-id")[0]
+        # prepopulate fields
         choiceReadableValue = i.get_Q02_01_display()
         data={'SCHOILA':choiceReadableValue, 'SCHOILB':choiceReadableValue }
         form = postTaxInputForm(initial=data)
@@ -76,8 +78,10 @@ def outputPdf(request):
     
     # generate data.FDF then write to PDF
     generate_fdf()
+    generate_F8843_fdf()
     subprocess.call(['pdftk', 'f1040nre.pdf', 'fill_form', 'data.fdf', 'output', 'static/f1040nre_output.pdf'])
-
+    subprocess.call(['pdftk', 'f8843.pdf', 'fill_form', 'f8843_data.fdf', 'output', 'static/f8843_output.pdf'])
+    
     return render_to_response('app1040nrezlocal/output_pdf.html', context_dict, context)
 	
 def styled(request):

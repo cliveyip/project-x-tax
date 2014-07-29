@@ -63,6 +63,8 @@ class modelSummary(models.Model):
     SUMMARY09b = models.IntegerField("Tax Due", default=0)
 
 class modelPostTaxInput(models.Model):
+
+    # Schedule OI fields
     SCHOILA = models.CharField("Of what country or countries were you a citizen or national during the tax year?", default="", max_length=128, blank=True, null=True)
     SCHOILB = models.CharField("In what country did you claim residence for tax purposes during the tax year?", default="", max_length=128, blank=True, null=True) 
     SCHOILC = models.BooleanField("Have you ever applied to be a green card holder (lawful permanent resident) of the United States?", default=False)
@@ -77,6 +79,97 @@ class modelPostTaxInput(models.Model):
     SCHOILHb = models.IntegerField("2012", default=0)
     SCHOILHc = models.IntegerField("and 2013", default=0)
     
+    # F8843 fields
+    F8843L01A = models.CharField("Type of U.S. visa (for example, F, J, M, Q, etc.) and date you entered the United States", default="", max_length=128, blank=True, null=True)
+    F8843L01B = models.CharField("Current nonimmigrant status and date of change (see instructions)", default="", max_length=128, blank=True, null=True)
+    F8843L02 = models.CharField("Of what country were you a citizen during the tax year?", default="", max_length=128, blank=True, null=True)
+    F8843L03A = models.CharField("What country issued you a passport?", default="", max_length=128, blank=True, null=True)
+    F8843L03B = models.CharField("Enter your passport number", default="", max_length=128, blank=True, null=True)
+
+    F8843L04Aa = models.IntegerField("2013", default=0, blank=True, null=True)
+    F8843L04Ab = models.IntegerField("2012", default=0, blank=True, null=True)
+    F8843L04Ac = models.IntegerField("2011", default=0, blank=True, null=True)
+    F8843L04B = models.IntegerField("Enter the number of days in 2013 you claim you can exclude for purposes of the substantial presence test", default=0, blank=True, null=True)
+
+    F8843Teachers = models.BooleanField("Teachers and Trainees (Visa J or Q)", default=False)
+    F8843L05 = models.CharField("For teachers, enter the name, address, and telephone number of the academic institution where you taught in 2013", default="", max_length=128, blank=True, null=True)
+    F8843L06 = models.CharField("For trainees, enter the name, address, and telephone number of the director of the academic or other specialized program you participated in during 2013", default="", max_length=128, blank=True, null=True)
+
+    F8843L07a = models.CharField("2007", default="", max_length=128, blank=True, null=True)
+    F8843L07b = models.CharField("2008", default="", max_length=128, blank=True, null=True)
+    F8843L07c = models.CharField("2009", default="", max_length=128, blank=True, null=True)
+    F8843L07d = models.CharField("2010", default="", max_length=128, blank=True, null=True)
+    F8843L07e = models.CharField("2011", default="", max_length=128, blank=True, null=True)
+    F8843L07f = models.CharField("2012", default="", max_length=128, blank=True, null=True)
+    F8843L08 = models.BooleanField("Were you present in the United States as a teacher, trainee, or student for any part of 2 of the 6 prior calendar years (2007 through 2012)?", default=False)
+
+    F8843Students = models.BooleanField("Students (Visa F, J, M, or Q)", default=False)
+    F8843L09 = models.CharField("Enter the name, address, and telephone number of the academic institution you attended during 2013", default="", max_length=128, blank=True, null=True)
+    F8843L10 = models.CharField("Enter the name, address, and telephone number of the director of the academic or other specialized program you participated in during 2013", default="", max_length=128, blank=True, null=True)
+
+    F8843L11a = models.CharField("2007", default="", max_length=128, blank=True, null=True)
+    F8843L11b = models.CharField("2008", default="", max_length=128, blank=True, null=True)
+    F8843L11c = models.CharField("2009", default="", max_length=128, blank=True, null=True)
+    F8843L11d = models.CharField("2010", default="", max_length=128, blank=True, null=True)
+    F8843L11e = models.CharField("2011", default="", max_length=128, blank=True, null=True)
+    F8843L11f = models.CharField("2012", default="", max_length=128, blank=True, null=True)
+    F8843L12 = models.BooleanField("Were you present in the United States as a teacher, trainee, or student for any part of more than 5 calendar years?", default=False)
+
+    F8843L13 = models.BooleanField("During 2013, did you apply for, or take other affirmative steps to apply for, lawful permanent resident status", default=False)
+
+    F8843L14 = models.CharField("If you checked the 'Yes' box on line 13, explain", default="", max_length=128, blank=True, null=True)
+    F8843Athletes = models.BooleanField("Professional Athletes", default=0)
+    F8843L15 = models.CharField("Enter the name of the charitable sports event(s) in the United States in which you competed during 2013 and the dates of competition", default="", max_length=128, blank=True, null=True)
+    F8843L16 = models.CharField("Enter the name(s) and employer identification number(s) of the charitable organization(s) that benefited from the sports event(s)", default="", max_length=128, blank=True, null=True)
+    F8843L16a = models.BooleanField("Note. You must attach a statement to verify that all of the net proceeds of the sports event(s) were contributed to the charitable organization(s) listed on line 16.", default=False)
+    F8843L17A = models.CharField("Describe the medical condition or medical problem that prevented you from leaving the United States", default="", max_length=128, blank=True, null=True)
+    F8843L17B = models.CharField("Enter the date you intended to leave the United States prior to the onset of the medical condition or medical problem described on line 17a", default="", max_length=128, blank=True, null=True)
+    F8843L17C = models.CharField("Enter the date you actually left the United States", default="", max_length=128, blank=True, null=True)
+    F8843MedicalProblem = models.BooleanField("Individuals With a Medical Condition or Medical Problem", default=False)
+    F8843L18a = models.CharField("Physician's Statement:", default="", max_length=128, blank=True, null=True)
+    F8843L18b = models.CharField("Name of physician or other medical official", default="", max_length=128, blank=True, null=True)
+    F8843L18c = models.CharField("Physician's or other medical official's address and telephone number", default="", max_length=128, blank=True, null=True)
+
+class modelF8843(models.Model):
+    # F8843 fields
+    F8843L01A = models.CharField("Type of U.S. visa (for example, F, J, M, Q, etc.) and date you entered the United States", default="", max_length=128)
+    F8843L01B = models.CharField("Current nonimmigrant status and date of change (see instructions)", default="", max_length=128)
+    F8843L02 = models.CharField("Of what country were you a citizen during the tax year?", default="", max_length=128)
+    F8843L03A = models.CharField("What country issued you a passport?", default="", max_length=128)
+    F8843L03B = models.CharField("Enter your passport number", default="", max_length=128)
+    F8843L04Aa = models.IntegerField("2013", default=0)
+    F8843L04Ab = models.IntegerField("2012", default=0)
+    F8843L04Ac = models.IntegerField("2011", default=0)
+    F8843L04B = models.IntegerField("Enter the number of days in 2013 you claim you can exclude for purposes of the substantial presence test", default=0)
+    F8843L05 = models.CharField("For teachers, enter the name, address, and telephone number of the academic institution where you taught in 2013", default="", max_length=128)
+    F8843L06 = models.CharField("For trainees, enter the name, address, and telephone number of the director of the academic or other specialized program you participated in during 2013", default="", max_length=128)
+    F8843L07a = models.CharField("2007", default="", max_length=128)
+    F8843L07b = models.CharField("2008", default="", max_length=128)
+    F8843L07c = models.CharField("2009", default="", max_length=128)
+    F8843L07d = models.CharField("2010", default="", max_length=128)
+    F8843L07e = models.CharField("2011", default="", max_length=128)
+    F8843L07f = models.CharField("2012", default="", max_length=128)
+    F8843L08 = models.BooleanField("Were you present in the United States as a teacher, trainee, or student for any part of 2 of the 6 prior calendar years (2007 through 2012)?", default=False)
+    F8843L09 = models.CharField("Enter the name, address, and telephone number of the academic institution you attended during 2013", default="", max_length=128)
+    F8843L10 = models.CharField("Enter the name, address, and telephone number of the director of the academic or other specialized program you participated in during 2013", default="", max_length=128)
+    F8843L11a = models.CharField("2007", default="", max_length=128)
+    F8843L11b = models.CharField("2008", default="", max_length=128)
+    F8843L11c = models.CharField("2009", default="", max_length=128)
+    F8843L11d = models.CharField("2010", default="", max_length=128)
+    F8843L11e = models.CharField("2011", default="", max_length=128)
+    F8843L11f = models.CharField("2012", default="", max_length=128)
+    F8843L12 = models.BooleanField("Were you present in the United States as a teacher, trainee, or student for any part of more than 5 calendar years?", default=False)
+    F8843L13 = models.BooleanField("During 2013, did you apply for, or take other affirmative steps to apply for, lawful permanent resident status", default=False)
+    F8843L14 = models.CharField("If you checked the 'Yes' box on line 13, explain", default="", max_length=128)
+    F8843L15 = models.CharField("Enter the name of the charitable sports event(s) in the United States in which you competed during 2013 and the dates of competition", default="", max_length=128)
+    F8843L16 = models.CharField("Enter the name(s) and employer identification number(s) of the charitable organization(s) that benefited from the sports event(s)", default="", max_length=128)
+    F8843L16a = models.BooleanField("Note. You must attach a statement to verify that all of the net proceeds of the sports event(s) were contributed to the charitable organization(s) listed on line 16.", default=False)
+    F8843L17A = models.CharField("Describe the medical condition or medical problem that prevented you from leaving the United States", default="", max_length=128)
+    F8843L17B = models.CharField("Enter the date you intended to leave the United States prior to the onset of the medical condition or medical problem described on line 17a", default="", max_length=128)
+    F8843L17C = models.CharField("Enter the date you actually left the United States", default="", max_length=128)
+    F8843L18a = models.CharField("Physician's Statement:", default="", max_length=128)
+    F8843L18b = models.CharField("Name of physician or other medical official", default="", max_length=128)
+    F8843L18c = models.CharField("Physician's or other medical official's address and telephone number", default="", max_length=128)
 
 class modelInput(models.Model):
    
