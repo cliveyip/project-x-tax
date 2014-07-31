@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load crispy_forms_tags %}
 
 <html>
     <head>
@@ -17,61 +18,17 @@
         
         <h2> Post Tax interview questions </h2>
         
-        <form class="form-horizontal" id="category_form" method="post" action="/app/postTax/">
-		  
-            {% csrf_token %}
-            
-            <div class="page-header">
-              <h1>Schedule OI questions</h1>
-            </div>
-            
-            {% for field in form %}         
-                {% if "SCHOI" in field.name %}
-                    <div class = "form-group" id= {{field.name|add:"_div"}}>
-                        <div class="col-md-4">
-                            {{ field.label }}
-                        </div>
-                        <div class="col-md-8">
-                             {{ field }}
-                        </div>
-                    </div>
-                    {{ field.errors }}    
-                {% endif %}            
-            {% endfor %}
-            
-            <div class="page-header">
-              <h1>F8843 questions</h1>
-            </div>
- 
-            
-            {% for field in form %}         
-                {% if "F8843" in field.name %}
-                    <div class = "form-group" id= {{field.name|add:"_div"}}>
-                        <div class="col-md-4">
-                            {{ field.label }}
-                        </div>
-                        <div class="col-md-8">
-                             {{ field }}
-                        </div>
-                    </div>
-                    {{ field.errors }}    
-                {% endif %}            
-            {% endfor %}
-
-            <input type="submit" name="submit" value="Sumbit form and get PDF result" />
-            
-        </form>
+        {% crispy form %}
         
-        </div> <!--- close col-md-9 --->
 		</div> <!--- close container --->
 		
         
         <script>
 		$( document ).ready(function() {
-		  $("[id^=F8843TeachersL]").hide();
-		  $("[id^=F8843StudentsL]").hide();
-		  $("[id^=F8843AthletesL]").hide();
-		  $("[id^=F8843MedicalL]").hide();
+		  $("[id^=div_id_F8843TeachersL]").hide();
+		  $("[id^=div_id_F8843StudentsL]").hide();
+		  $("[id^=div_id_F8843AthletesL]").hide();
+		  $("[id^=div_id_F8843MedicalL]").hide();
 		});
 		</script>
         
@@ -80,27 +37,27 @@
 		$("input:checkbox").change(function() {
 
 			if ($("#id_F8843Teachers").is(":checked")){
-				$("[id^=F8843TeachersL]").show();
+				$("[id^=div_id_F8843TeachersL]").show();
 			} else {
-				$("[id^=F8843TeachersL]").hide();			
+				$("[id^=div_id_F8843TeachersL]").hide();			
 			}
             
 			if ($("#id_F8843Students").is(":checked")){
-				$("[id^=F8843StudentsL]").show();
+				$("[id^=div_id_F8843StudentsL]").show();
 			} else {
-				$("[id^=F8843StudentsL]").hide();			
+				$("[id^=div_id_F8843StudentsL]").hide();			
 			}
             
 			if ($("#id_F8843Athletes").is(":checked")){
-				$("[id^=F8843AthletesL]").show();
+				$("[id^=div_id_F8843AthletesL]").show();
 			} else {
-				$("[id^=F8843AthletesL]").hide();			
+				$("[id^=div_id_F8843AthletesL]").hide();			
 			}
             
 			if ($("#id_F8843Medical").is(":checked")){
-				$("[id^=F8843MedicalL]").show();
+				$("[id^=div_id_F8843MedicalL]").show();
 			} else {
-				$("[id^=F8843MedicalL]").hide();			
+				$("[id^=div_id_F8843MedicalL]").hide();			
 			}	
 		});
 		</script>
