@@ -19,29 +19,7 @@
 		<div class="container">
         <h1>Fill in the details</h1>
 
-        <form class="form-horizontal" id="category_form" method="post" action="/app/">
-		  
-            
-            
-            {% csrf_token %}
-
-
-            {% for field in form %}
-			<div class = "form-group" id= {{field.name|add:"_div"}}>
-				<div class="col-md-4">
-                    {{ field.label }}
-				</div>
-				<div class="col-md-8">
-                    {{ field }}
-				</div>
-			</div>
-				{{ field.errors }}
-				
-            {% endfor %}
-
-            <input type="submit" name="submit" value="Submit form" />
-            
-        </form>  
+        {% crispy form %}
         
 		</div>
 
@@ -49,9 +27,9 @@
 		<!-- onLoad, hide hidden divs -->
 		<script>
 		$( document ).ready(function() {
-		  $("[id^=W2L]").hide();
-		  $("[id^=F1099GL]").hide();
-		  $("#Q01_01_div").hide();
+		  $("[id^=div_id_W2L]").hide();
+		  $("[id^=div_id_F1099GL]").hide();
+		  $("#div_id_Q01_01").hide();
 		});
 		</script>
 		
@@ -63,28 +41,28 @@
         
 			// --- select tax year ---
 			// Prior year tax is checked		
-			if ($("#id_Q01_1").is(":checked")){
-				$("#Q01_01_div").show();
+			if ($("#id_Q01_2").is(":checked")){
+				$("#div_id_Q01_01").show();
 			} else {
-				$("#Q01_01_div").hide();			
+				$("#div_id_Q01_01").hide();			
 			}
             
 			// --- Tax Treaty Amount ---
 			// China is checked
-			if ($("#id_Q02_01_0").is(":checked")){
+			if ($("#id_Q02_01_1").is(":checked")){
 				$("#id_Q02_01_01").val(5000);
 			// Mexico is checked
-			} if ($("#id_Q02_01_1").is(":checked")){
+			} if ($("#id_Q02_01_2").is(":checked")){
 				$("#id_Q02_01_01").val(3000);			
 			}
 
 			// --- Single or Married ---
 			// Single is checked
-			if ($("#id_Q03_01_0").is(":checked")){
+			if ($("#id_Q03_01_1").is(":checked")){
 				$("#id_Q03_01_01").val(3900);
 				$("#id_Q03_01_02").val(6100);
 			// Married is checked
-			} if ($("#id_Q03_01_1").is(":checked")){
+			} if ($("#id_Q03_01_2").is(":checked")){
 				$("#id_Q03_01_01").val(7800);
 				$("#id_Q03_01_02").val(12200);
 			}			
@@ -95,21 +73,19 @@
 		<!-- whenever there are checkbox changes-->
 		<script>
 		$("input:checkbox").change(function() {
-		
-
 			
 			// --- select Source of Income ---
 			// W2 is checked
 			if ($("#id_Q04_a").is(":checked")){
-				$("[id^=W2L]").show();
+				$("[id^=div_id_W2L]").show();
 			} else {
-				$("[id^=W2L]").hide();			
+				$("[id^=div_id_W2L]").hide();			
 			}
 			// 1099G is checked
 			if ($("#id_Q04_b").is(":checked")){
-				$("[id^=F1099GL]").show();
+				$("[id^=div_id_F1099GL]").show();
 			} else {
-				$("[id^=F1099GL]").hide();			
+				$("[id^=div_id_F1099GL]").hide();			
 			}
 			
 		});

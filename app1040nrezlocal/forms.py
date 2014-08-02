@@ -4,70 +4,123 @@ from app1040nrezlocal.models import modelInput, modelPostTaxInput
 from crispy_forms.layout import Layout, Fieldset, Submit, HTML
 from crispy_forms.helper import FormHelper
 
+# pretax interview questions
 class TaxModelForm(forms.ModelForm):
-
-    # override fields from ModelInput for custom behaviour
-    # select one - radio buttons
-    Q01 = forms.CharField(required=False, widget=RadioSelect(choices=modelInput.CHOICES_Q01), label="Please select tax year: ")
-    Q01_01 = forms.CharField(required=False, widget=RadioSelect(choices=modelInput.CHOICES_Q01_01), label="Please select a prior tax year: ")
-    Q02 = forms.CharField(required=False, widget=RadioSelect(choices=modelInput.CHOICES_Q02), label="Please select your service need:")
-    Q02_01 = forms.CharField(required=False, widget=RadioSelect(choices=modelInput.CHOICES_Q02_01), label="Please select your country of origin: ")
-    Q03 = forms.CharField(required=False, widget=RadioSelect(choices=modelInput.CHOICES_Q03), label="Please select your forms:")
-    Q03_01 = forms.CharField(required=False, widget=RadioSelect(choices=modelInput.CHOICES_Q03_01), label="What do you want to file as?")
+    
+    # radio buttons
+    Q01 = forms.ChoiceField(
+        label = "1) Please select tax year",
+        choices = (('a', "Current Year"),('b', "Prior Year(s)")),
+        widget = forms.RadioSelect,
+        initial = 'a',
+        required = False,
+    )   
+    Q01_01 = forms.ChoiceField(
+        label = "1.1) Please select a prior tax year",
+        choices = (("a", "2010"), ("b", "2011"), ("c", "2012")),
+        widget = forms.RadioSelect,
+        required = False,
+    )   
+    Q02 = forms.ChoiceField(
+        label = "2) Please select your service need:",
+        choices = (("a", "Nonresident Tax Return"), ("b", "Social Security & Medicare Tax Refunds")),
+        widget = forms.RadioSelect,
+        required = False,
+    )   
+    Q02_01 = forms.ChoiceField(
+        label = "2.1) Please select your country of origin:",
+        choices = (("a", "China"), ("b", "Mexico")),
+        widget = forms.RadioSelect,
+        required = False,
+    )   
+    Q03 = forms.ChoiceField(
+        label = "3) Please select your forms:",
+        choices = (("a", "1040NR-EZ"), ("b", "1040NR")),
+        widget = forms.RadioSelect,
+        required = False,
+    )   
+    Q03_01 = forms.ChoiceField(
+        label = "3.1) What do you want to file as?",
+        choices = (("a", "Single"), ("b", "Married")),
+        widget = forms.RadioSelect,
+        required = False,
+    )   
+    
+    def __init__(self, *args, **kwargs):
+        super(TaxModelForm, self).__init__(*args, **kwargs)
+        # make fields read-only
+        self.fields['Q02_01_01'].widget.attrs['readonly'] = True
+        self.fields['Q03_01_01'].widget.attrs['readonly'] = True
+        self.fields['Q03_01_02'].widget.attrs['readonly'] = True
+        # Django crispy form
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-exampleForm'
+        self.helper.form_method = 'post'
+        self.helper.form_action = '/app/'
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-4'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.add_input(Submit('submit', 'Submit'))
+        self.helper.layout = Layout(
+            Fieldset(
+                'Pre tax interview questions',
+                'A01', 
+                'A02',
+                'Q01',
+                'Q01_01',
+                'Q02',
+                'Q02_01',
+                'Q02_01_01',
+                'Q03',
+                'Q03_01',
+                'Q03_01_01',
+                'Q03_01_02',
+                ),
+            Fieldset(
+                'Income sources',
+                HTML("<p><b>4. Please select source(s) of income: </b></p>"),
+                'Q04_a',
+                'W2L01',
+                'W2L02',
+                'W2L03',
+                'W2L04',
+                'W2L05',
+                'W2L06',
+                'W2L12aB',
+                'W2L12bB',
+                'W2L15aA',
+                'W2L15bA',
+                'W2L16A',
+                'W2L17A',
+                'W2L18A',
+                'W2L19A',
+                'W2L20A',
+                'W2L07',
+                'W2L08',
+                'W2L10',
+                'W2L11',
+                'W2L14',
+                'Q04_b',
+                'F1099GL01',
+                'F1099GL02',
+                'F1099GL03',
+                'F1099GL04',
+                'F1099GL05',
+                'F1099GL06',
+                'F1099GL07',
+                'F1099GL08',
+                'F1099GL09',
+                'F1099GL10aA',
+                'F1099GL10bA',
+                'F1099GL11A',
+                ),
+            )
+                
 
     class Meta:
         # associate with ModelInput for automatically generated fields
         model = modelInput
-        # order of fields
-        fields = (
-            'A01', 
-            'A02',
-            'Q01',
-            'Q01_01',
-            'Q02',
-            'Q02_01',
-            'Q02_01_01',
-            'Q03',
-            'Q03_01',
-            'Q03_01_01',
-            'Q03_01_02',
-            #W2
-            'Q04_a',
-            'W2L01',
-            'W2L02',
-            'W2L03',
-            'W2L04',
-            'W2L05',
-            'W2L06',
-            'W2L12aB',
-            'W2L12bB',
-            'W2L15aA',
-            'W2L15bA',
-            'W2L16A',
-            'W2L17A',
-            'W2L18A',
-            'W2L19A',
-            'W2L20A',
-            'W2L07',
-            'W2L08',
-            'W2L10',
-            'W2L11',
-            'W2L14',
 
-            #1099
-            'Q04_b',
-            'F1099GL01',
-            'F1099GL02',
-            'F1099GL03',
-            'F1099GL04',
-            'F1099GL05',
-            'F1099GL06',
-            'F1099GL07',
-            'F1099GL08',
-            'F1099GL09',
-            'F1099GL10aA',
-            'F1099GL10bA',
-            'F1099GL11A',)
 
             
 class postTaxInputForm(forms.ModelForm):

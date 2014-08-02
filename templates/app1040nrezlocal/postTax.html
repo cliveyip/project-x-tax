@@ -8,8 +8,10 @@
 
 		<!-- Bootstrap -->
 		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+		<link href="{% static 'css/datepicker.css' %}" rel="stylesheet" media="screen">
 		<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
 		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
 
     </head>
 
@@ -22,6 +24,10 @@
         
 		</div> <!--- close container --->
 		
+        <script>
+            $('#id_SCHOILGc').datepicker({ format: "mm/dd/yy" });
+            $('#id_SCHOILGd').datepicker({ format: "mm/dd/yy" });
+        </script>
         
         <script>
 		$( document ).ready(function() {

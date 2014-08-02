@@ -42,7 +42,6 @@ class model1040NREZ(models.Model):
 
     def __unicode__(self):
         return self.INFOL01 + " " + self.INFOL02
-
    
 class modelSummary(models.Model):
     SUMMARY01 = models.CharField("Filing Status", default="", max_length=128)
