@@ -60,7 +60,8 @@ def inputTo1040NREZ():
 
     f.save()
 
-    
+
+# for filling up Schedule OI    
 def postTaxTo1040NREZ():
     # retrieve the relevant record
     # TODO: use session ID instead of max ID
@@ -72,7 +73,23 @@ def postTaxTo1040NREZ():
     
     # field association/ calculation
     # TODO: associate all fields
+    f.F1040NREZSCHOILA = i.SCHOILA
+    f.F1040NREZSCHOILB = i.SCHOILB
     f.F1040NREZSCHOILC = i.SCHOILC
+    f.F1040NREZSCHOILD1 = i.SCHOILD1
+    f.F1040NREZSCHOILD2 = i.SCHOILD2
+    f.F1040NREZSCHOILE = i.SCHOILE
+    f.F1040NREZSCHOILF = i.SCHOILF
+    f.F1040NREZSCHOILFc = i.SCHOILFc
+    f.F1040NREZSCHOILGa = i.SCHOILGa
+    f.F1040NREZSCHOILGb = i.SCHOILGb
+    f.F1040NREZSCHOILGc = i.SCHOILGc
+    f.F1040NREZSCHOILGd = i.SCHOILGd
+    f.F1040NREZSCHOILHa = i.SCHOILHa
+    f.F1040NREZSCHOILHb = i.SCHOILHb
+    f.F1040NREZSCHOILHc = i.SCHOILHc
+    f.F1040NREZSCHOILI = i.SCHOILI
+    f.F1040NREZSCHOILIc = i.SCHOILIc
     
     f.save()
     
@@ -232,7 +249,7 @@ def helper_tax_table(arg1, arg2):
     return L15
         
     
-# function to generate fdf file for PDFtk use
+# generate fdf file for PDFtk use - F1040NREZ
 def generate_fdf():
     
     # TODO: use session ID instead of max ID
@@ -245,13 +262,46 @@ def generate_fdf():
         boolean_tuple+=[('topmostSubform[0].Page1[0].c1_2_0_[0]', 1)]
     else:
         boolean_tuple+=[('topmostSubform[0].Page1[0].c1_2_0_[1]', 2)]
-        
+    
+    # SchOI_C "have you ever.. green card"?    
     if f.F1040NREZSCHOILC == 0:
-        # SchOI_C: have you ever.. green card: No
+        # No
         boolean_tuple+=[('topmostSubform[0].Page2[0].c2_01_0_[1]', 2)]
     else:
-        # SchOI_C: have you ever.. green card: Yes
+        # yes
         boolean_tuple+=[('topmostSubform[0].Page2[0].c2_01_0_[0]', 1)]
+    
+    # SchOI_D1 "A US Citizen"?
+    if f.F1040NREZSCHOILD1 == 0:
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_35_0_[1]', 2)]
+    else:
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_35_0_[0]', 1)]
+    
+    # SchOI_D2 "A greencard holder"?
+    if f.F1040NREZSCHOILD2 == 0:
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_37_0_[1]', 2)]
+    else:
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_37_0_[0]', 1)]
+    
+    # SchOI_F "Changed Visa Type"?
+    if f.F1040NREZSCHOILF == 0:
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_36_0_[1]', 2)]
+    else:
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_36_0_[0]', 1)]
+    
+    # SchOI_G "Resident of Canada or Mexico"?
+    if f.F1040NREZSCHOILGa == 1:
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_38_0_[0]', 1)]
+    if f.F1040NREZSCHOILGb == 1:
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_38_0_[1]', 2)]
+    
+    # SchOI_I "File return prior year"?
+    if f.F1040NREZSCHOILI == 0:
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_22_0_[1]', 2)]
+    else:
+        boolean_tuple+=[('topmostSubform[0].Page2[0].c2_22_0_[0]', 1)]
+     
+
         
     # ---
     # FieldName: topmostSubform[0].Page2[0].c2_01_0_[0]
@@ -285,8 +335,20 @@ def generate_fdf():
              ('topmostSubform[0].Page1[0].f1_48_0_[0]', f.F1040NREZL22), 
              ('topmostSubform[0].Page1[0].f1_50_0_[0]', f.F1040NREZL23a), 
              ('topmostSubform[0].Page1[0].f1_54_0_[0]', f.F1040NREZL24), 
-             ('topmostSubform[0].Page1[0].f1_56_0_[0]', f.F1040NREZL25), 
-            ('topmostSubform[0].Page1[0].f1_58_0_[0]', f.F1040NREZL26)]    
+             ('topmostSubform[0].Page1[0].f1_56_0_[0]', f.F1040NREZL25),
+             ('topmostSubform[0].Page1[0].f1_58_0_[0]', f.F1040NREZL26), 
+
+            # Schdule OI: CharField, DateField and IntegerField
+             ('topmostSubform[0].Page2[0].f2_01_0_[0]', f.F1040NREZSCHOILA), 
+             ('topmostSubform[0].Page2[0].f2_02_0_[0]', f.F1040NREZSCHOILB), 
+             ('topmostSubform[0].Page2[0].f2_19_0_[0]', f.F1040NREZSCHOILE), 
+             ('topmostSubform[0].Page2[0].f2_18_0_[0]', f.F1040NREZSCHOILFc), 
+             ('topmostSubform[0].Page2[0].Table_LineG-1[0].Row1[0].f2_019_0_[0]', f.F1040NREZSCHOILGc), 
+             ('topmostSubform[0].Page2[0].Table_LineG-1[0].Row1[0].f2_22_0_[0]', f.F1040NREZSCHOILGd), 
+             ('topmostSubform[0].Page2[0].f2_15_0_[0]', f.F1040NREZSCHOILHa), 
+             ('topmostSubform[0].Page2[0].f2_16_0_[0]', f.F1040NREZSCHOILHb), 
+             ('topmostSubform[0].Page2[0].f2_17_0_[0]', f.F1040NREZSCHOILHc), 
+             ('topmostSubform[0].Page2[0].f2_100_0_[0]', f.F1040NREZSCHOILIc),]    
     
     fields += boolean_tuple
     
@@ -296,7 +358,7 @@ def generate_fdf():
     fdf_file.write(fdf)
     fdf_file.close()
 
-# function to generate fdf file for PDFtk use 
+# generate fdf file for PDFtk use - F8843
 def generate_F8843_fdf():
     # TODO: use session ID instead of max ID
     f = modelF8843.objects.all().order_by("-id")[0]

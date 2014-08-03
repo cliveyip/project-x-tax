@@ -38,8 +38,27 @@ class model1040NREZ(models.Model):
     F1040NREZL25 = models.IntegerField("Amount you owe. Subtract line 21 from line 17. For details on how to pay, see instructions", default=0)
     F1040NREZL26 = models.IntegerField("Estimated tax penalty (see instructions)", default=0)
     
-    F1040NREZSCHOILC = models.BooleanField("Have you ever applied to be a green card holder (lawful permanent resident) of the United States?", default=False)
-
+    # label not required here, since the modelPostTaxInput already has it, which gets passed to postTaxInputForm
+    # null=True is for database, blank=True is for form validation
+    # since boolean does not accept null, use default=false 
+    F1040NREZSCHOILA = models.CharField(max_length=128)
+    F1040NREZSCHOILB = models.CharField(max_length=128)
+    F1040NREZSCHOILC = models.BooleanField(default=False)
+    F1040NREZSCHOILD1 = models.BooleanField(default=False)
+    F1040NREZSCHOILD2 = models.BooleanField(default=False)
+    F1040NREZSCHOILE = models.CharField(max_length=128)
+    F1040NREZSCHOILF = models.BooleanField(default=False)
+    F1040NREZSCHOILFc = models.CharField(max_length=128)
+    F1040NREZSCHOILGa = models.BooleanField(default=False)
+    F1040NREZSCHOILGb = models.BooleanField(default=False) #to delete
+    F1040NREZSCHOILGc = models.DateField(null=True)
+    F1040NREZSCHOILGd = models.DateField(null=True)
+    F1040NREZSCHOILHa = models.IntegerField(null=True)
+    F1040NREZSCHOILHb = models.IntegerField(null=True)
+    F1040NREZSCHOILHc = models.IntegerField(null=True)
+    F1040NREZSCHOILI = models.BooleanField(default=False)
+    F1040NREZSCHOILIc = models.CharField(max_length=128)
+    
     def __unicode__(self):
         return self.INFOL01 + " " + self.INFOL02
    
