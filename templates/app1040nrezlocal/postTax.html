@@ -31,40 +31,49 @@
         
         <script>
 		$( document ).ready(function() {
-		  $("[id^=div_id_F8843TeachersL]").hide();
+		  
+          $("#F8843Teachers_fieldset_div").parent().hide();
+          $("#F8843Students_fieldset_div").parent().hide();
+          $("#F8843Athletes_fieldset_div").parent().hide();
+          $("#F8843Medical_fieldset_div").parent().hide();
+          /*
+          $("[id^=div_id_F8843TeachersL]").hide();
 		  $("[id^=div_id_F8843StudentsL]").hide();
 		  $("[id^=div_id_F8843AthletesL]").hide();
 		  $("[id^=div_id_F8843MedicalL]").hide();
+          */
 		});
 		</script>
         
         <!-- whenever there are checkbox changes-->
 		<script>
 		$("input:checkbox").change(function() {
-
+            
+            
 			if ($("#id_F8843Teachers").is(":checked")){
-				$("[id^=div_id_F8843TeachersL]").show();
+                $("#F8843Teachers_fieldset_div").parent().show();
 			} else {
-				$("[id^=div_id_F8843TeachersL]").hide();			
+                $("#F8843Teachers_fieldset_div").parent().hide();             
 			}
             
 			if ($("#id_F8843Students").is(":checked")){
-				$("[id^=div_id_F8843StudentsL]").show();
+                $("#F8843Students_fieldset_div").parent().show();
 			} else {
-				$("[id^=div_id_F8843StudentsL]").hide();			
+                $("#F8843Students_fieldset_div").parent().hide();             
 			}
             
 			if ($("#id_F8843Athletes").is(":checked")){
-				$("[id^=div_id_F8843AthletesL]").show();
+                $("#F8843Athletes_fieldset_div").parent().show();
 			} else {
-				$("[id^=div_id_F8843AthletesL]").hide();			
+                $("#F8843Athletes_fieldset_div").parent().hide();             
 			}
             
 			if ($("#id_F8843Medical").is(":checked")){
-				$("[id^=div_id_F8843MedicalL]").show();
+                $("#F8843Medical_fieldset_div").parent().show();
 			} else {
-				$("[id^=div_id_F8843MedicalL]").hide();			
-			}	
+                $("#F8843Medical_fieldset_div").parent().hide();             
+			}
+            
 		});
 		</script>
     </body>

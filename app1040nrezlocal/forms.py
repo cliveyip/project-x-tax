@@ -213,7 +213,8 @@ class postTaxInputForm(forms.ModelForm):
             ),
             Fieldset(
                 'F8843 questions',
-                HTML("<b>Part I: General Information</b></br>"),
+                Fieldset(
+                'F8843 Part I: General Information',
                 'F8843L01A',
                 'F8843L01B',
                 'F8843L02',
@@ -223,11 +224,17 @@ class postTaxInputForm(forms.ModelForm):
                 'F8843L04Ab',
                 'F8843L04Ac',
                 'F8843L04B',
-                HTML("<b>Part II: Please check all that applies to you:</b></br>"),
+                ),
+                Fieldset(
+                'Please check all that applies to you:',
                 'F8843Teachers',
                 'F8843Students',                
                 'F8843Athletes',
                 'F8843Medical',
+                ),
+                Fieldset(
+                'Part II - Teachers and Trainees',
+                HTML("<div id='F8843Teachers_fieldset_div'></div>"),
                 'F8843TeachersL05',
                 'F8843TeachersL06',
                 'F8843TeachersL07a',
@@ -237,6 +244,10 @@ class postTaxInputForm(forms.ModelForm):
                 'F8843TeachersL07e',
                 'F8843TeachersL07f',
                 'F8843TeachersL08',
+                ),
+                Fieldset(
+                'Part III - Students',
+                HTML("<div id='F8843Students_fieldset_div'></div>"),
                 'F8843StudentsL09',
                 'F8843StudentsL10',
                 'F8843StudentsL11a',
@@ -248,15 +259,24 @@ class postTaxInputForm(forms.ModelForm):
                 'F8843StudentsL12',
                 'F8843StudentsL13',
                 'F8843StudentsL14',
+                ),
+                Fieldset(
+                'Part IV - Professional Athletes',
+                HTML("<div id='F8843Athletes_fieldset_div'></div>"),
                 'F8843AthletesL15',
                 'F8843AthletesL16',
                 'F8843AthletesL16a',
                 'F8843AthletesL17A',
                 'F8843AthletesL17B',
                 'F8843AthletesL17C',
+                ),
+                Fieldset(
+                'Part V - Individuals With a Medical Condition or Medical Problem',
+                HTML("<div id='F8843Medical_fieldset_div'></div>"),
                 'F8843MedicalL18a',
                 'F8843MedicalL18b',
                 'F8843MedicalL18c',
+                ),
             )
         )
     

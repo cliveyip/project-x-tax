@@ -40,7 +40,7 @@ class model1040NREZ(models.Model):
     
     # label not required here, since the modelPostTaxInput already has it, which gets passed to postTaxInputForm
     # null=True is for database, blank=True is for form validation
-    # since boolean does not accept null, use default=false 
+    # since boolean does not accept null, use default=False 
     F1040NREZSCHOILA = models.CharField(max_length=128)
     F1040NREZSCHOILB = models.CharField(max_length=128)
     F1040NREZSCHOILC = models.BooleanField(default=False)
@@ -50,7 +50,7 @@ class model1040NREZ(models.Model):
     F1040NREZSCHOILF = models.BooleanField(default=False)
     F1040NREZSCHOILFc = models.CharField(max_length=128)
     F1040NREZSCHOILGa = models.BooleanField(default=False)
-    F1040NREZSCHOILGb = models.BooleanField(default=False) #to delete
+    F1040NREZSCHOILGb = models.BooleanField(default=False)
     F1040NREZSCHOILGc = models.DateField(null=True)
     F1040NREZSCHOILGd = models.DateField(null=True)
     F1040NREZSCHOILHa = models.IntegerField(null=True)
