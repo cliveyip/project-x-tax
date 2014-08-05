@@ -2,8 +2,7 @@ from django.db import models
 
 class model1040NREZ(models.Model):
     refnum = models.IntegerField("Reference Number", default=0)
-    INFOL01 = models.CharField("Your first name and initial", max_length=128)
-    INFOL02 = models.CharField("Last name", max_length=128)
+
     F1040NREZL01 = models.BooleanField("Single nonresident alien", default=False)
     F1040NREZL02 = models.BooleanField("Married nonresident alien", default=False)
     F1040NREZL03 = models.IntegerField("Wages, salaries, tips, etc. Attach Form(s) W-2", default=0)
@@ -58,6 +57,21 @@ class model1040NREZ(models.Model):
     F1040NREZSCHOILHc = models.IntegerField(null=True)
     F1040NREZSCHOILI = models.BooleanField(default=False)
     F1040NREZSCHOILIc = models.CharField(max_length=128)
+    
+    # Info fields
+    INFOL01 = models.CharField("Your first name and initial", max_length=128)
+    INFOL02 = models.CharField("Last name", max_length=128)
+    INFOL04 = models.CharField(max_length=128, null=True)
+    INFOL05 = models.CharField(max_length=128, null=True)
+    INFOL06 = models.CharField(max_length=128, null=True)
+    INFOL07 = models.CharField(max_length=128, null=True)
+    INFOL08 = models.CharField(max_length=128, null=True)
+    INFOL09 = models.BooleanField(default=False)
+    INFOL10 = models.CharField(max_length=128, null=True)
+    INFOL11 = models.CharField(max_length=128, null=True)
+    INFOL12 = models.CharField(max_length=128, null=True)
+    INFOL15 = models.CharField(max_length=128, null=True)
+    INFOL16 = models.CharField(max_length=128, null=True)
     
     def __unicode__(self):
         return self.INFOL01 + " " + self.INFOL02
@@ -141,14 +155,27 @@ class modelPostTaxInput(models.Model):
     F8843AthletesL15 = models.CharField("15. Enter the name of the charitable sports event(s) in the United States in which you competed during 2013 and the dates of competition", default="", max_length=128, blank=True, null=True)
     F8843AthletesL16 = models.CharField("16. Enter the name(s) and employer identification number(s) of the charitable organization(s) that benefited from the sports event(s)", default="", max_length=128, blank=True, null=True)
     F8843AthletesL16a = models.BooleanField("16a. Note. You must attach a statement to verify that all of the net proceeds of the sports event(s) were contributed to the charitable organization(s) listed on line 16.", default=False)
-    F8843AthletesL17A = models.CharField("17a. Describe the medical condition or medical problem that prevented you from leaving the United States", default="", max_length=128, blank=True, null=True)
-    F8843AthletesL17B = models.CharField("17b Enter the date you intended to leave the United States prior to the onset of the medical condition or medical problem described on line 17a", default="", max_length=128, blank=True, null=True)
-    F8843AthletesL17C = models.CharField("17c. Enter the date you actually left the United States", default="", max_length=128, blank=True, null=True)
     
     F8843Medical = models.BooleanField("Individuals With a Medical Condition or Medical Problem", default=False)
-    F8843MedicalL18a = models.CharField("18. Physician's Statement:", default="", max_length=128, blank=True, null=True)
+    F8843MedicalL17A = models.CharField("17a. Describe the medical condition or medical problem that prevented you from leaving the United States", default="", max_length=128, blank=True, null=True)
+    F8843MedicalL17B = models.CharField("17b Enter the date you intended to leave the United States prior to the onset of the medical condition or medical problem described on line 17a", default="", max_length=128, blank=True, null=True)
+    F8843MedicalL17C = models.DateField("17c. Enter the date you actually left the United States", blank=True, null=True)
+    F8843MedicalL18a = models.CharField("I certify that:", default="", max_length=128, blank=True, null=True)
     F8843MedicalL18b = models.CharField("Name of physician or other medical official", default="", max_length=128, blank=True, null=True)
     F8843MedicalL18c = models.CharField("Physician's or other medical official's address and telephone number", default="", max_length=128, blank=True, null=True)
+    
+    # INFO fields
+    INFOL04 = models.CharField("Number, street, and apt. no., or rural route (If you have a P.O. box, enter Box Number only)", max_length=128, blank=True, null=True)
+    INFOL05 = models.CharField("City, town or post office, state, and ZIP code.", max_length=128, blank=True, null=True)
+    INFOL06 = models.CharField("Foreign country name", max_length=128, blank=True, null=True)
+    INFOL07 = models.CharField("Foreign province/state/county", max_length=128, blank=True, null=True)
+    INFOL08 = models.CharField("Foreign postal code", max_length=128, blank=True, null=True)
+    INFOL09 = models.BooleanField(default=False)
+    INFOL10 = models.CharField("Designee's name", max_length=128, blank=True, null=True)
+    INFOL11 = models.CharField("Phone no.", max_length=128, blank=True, null=True)
+    INFOL12 = models.CharField("Personal identification number (PIN) ", max_length=128, blank=True, null=True)
+    INFOL15 = models.CharField("Enter your reponse here:", max_length=128, blank=True, null=True)
+    INFOL16 = models.CharField("Enter your reponse here:", max_length=128, blank=True, null=True)
 
 class modelF8843(models.Model):
     # F8843 fields
@@ -186,7 +213,7 @@ class modelF8843(models.Model):
     F8843L16a = models.BooleanField("Note. You must attach a statement to verify that all of the net proceeds of the sports event(s) were contributed to the charitable organization(s) listed on line 16.", default=False)
     F8843L17A = models.CharField("Describe the medical condition or medical problem that prevented you from leaving the United States", default="", max_length=128)
     F8843L17B = models.CharField("Enter the date you intended to leave the United States prior to the onset of the medical condition or medical problem described on line 17a", default="", max_length=128)
-    F8843L17C = models.CharField("Enter the date you actually left the United States", default="", max_length=128)
+    F8843L17C = models.DateField("Enter the date you actually left the United States", null=True)
     F8843L18a = models.CharField("Physician's Statement:", default="", max_length=128)
     F8843L18b = models.CharField("Name of physician or other medical official", default="", max_length=128)
     F8843L18c = models.CharField("Physician's or other medical official's address and telephone number", default="", max_length=128)

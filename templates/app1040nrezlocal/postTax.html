@@ -27,6 +27,7 @@
         <script>
             $('#id_SCHOILGc').datepicker({ format: "mm/dd/yy" });
             $('#id_SCHOILGd').datepicker({ format: "mm/dd/yy" });
+            $('#id_F8843MedicalL17C').datepicker({ format: "mm/dd/yy" });
         </script>
         
         <script>
@@ -36,20 +37,23 @@
           $("#F8843Students_fieldset_div").parent().hide();
           $("#F8843Athletes_fieldset_div").parent().hide();
           $("#F8843Medical_fieldset_div").parent().hide();
-          /*
-          $("[id^=div_id_F8843TeachersL]").hide();
-		  $("[id^=div_id_F8843StudentsL]").hide();
-		  $("[id^=div_id_F8843AthletesL]").hide();
-		  $("[id^=div_id_F8843MedicalL]").hide();
-          */
+          
+          $("#div_id_F8843StudentsL14").hide();
+          
+          // Info 3.1 Please enter the person's information
+          $("#label_id_INFO3_1").hide();
+          $("#div_id_INFOL10").hide();
+          $("#div_id_INFOL11").hide();
+          $("#div_id_INFOL12").hide();
+
 		});
 		</script>
         
         <!-- whenever there are checkbox changes-->
 		<script>
-		$("input:checkbox").change(function() {
+		$("input:checkbox, input:radio").change(function() {
             
-            
+            // Part II - V
 			if ($("#id_F8843Teachers").is(":checked")){
                 $("#F8843Teachers_fieldset_div").parent().show();
 			} else {
@@ -74,6 +78,25 @@
                 $("#F8843Medical_fieldset_div").parent().hide();             
 			}
             
+            // L14
+			if ($("#id_F8843StudentsL13_1").is(":checked")){
+                $("#div_id_F8843StudentsL14").show();
+			} else {
+                $("#div_id_F8843StudentsL14").hide();             
+			}
+            
+			if ($("#id_INFOL09_1 ").is(":checked")){
+                $("#label_id_INFO3_1").show();
+                $("#div_id_INFOL10").show();
+                $("#div_id_INFOL11").show();
+                $("#div_id_INFOL12").show();           
+			} else {
+                $("#label_id_INFO3_1").hide();
+                $("#div_id_INFOL10").hide();
+                $("#div_id_INFOL11").hide();
+                $("#div_id_INFOL12").hide();           
+			}
+             
 		});
 		</script>
     </body>

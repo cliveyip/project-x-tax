@@ -1,7 +1,7 @@
 from fdfgen import forge_fdf
 from app1040nrezlocal.models import modelInput, model1040NREZ, modelF8843, modelPostTaxInput
 
-# function to asscoiate 1040NREZ form with user input
+# for filling in 1040NREZ
 def inputTo1040NREZ():
     
     # create new 1040NREZ form record
@@ -60,8 +60,7 @@ def inputTo1040NREZ():
 
     f.save()
 
-
-# for filling up Schedule OI    
+# for filling in Schedule OI in 1040NREZ
 def postTaxTo1040NREZ():
     # retrieve the relevant record
     # TODO: use session ID instead of max ID
@@ -91,7 +90,20 @@ def postTaxTo1040NREZ():
     f.F1040NREZSCHOILI = i.SCHOILI
     f.F1040NREZSCHOILIc = i.SCHOILIc
     
+    f.INFOL04 = i.INFOL04
+    f.INFOL05 = i.INFOL05
+    f.INFOL06 = i.INFOL06
+    f.INFOL07 = i.INFOL07
+    f.INFOL08 = i.INFOL08
+    f.INFOL09 = i.INFOL09
+    f.INFOL10 = i.INFOL10
+    f.INFOL11 = i.INFOL11
+    f.INFOL12 = i.INFOL12
+    f.INFOL15 = i.INFOL15
+    f.INFOL16 = i.INFOL16
+    
     f.save()
+
     
 def postTaxtoF8843():
     # create new form record
@@ -104,7 +116,44 @@ def postTaxtoF8843():
     # field association/ calculation
     # TODO: associate all fields
     f.F8843L01A = i.F8843L01A
-    
+    f.F8843L01B = i.F8843L01B
+    f.F8843L02 = i.F8843L02
+    f.F8843L03A = i.F8843L03A
+    f.F8843L03B = i.F8843L03B
+    f.F8843L04Aa = i.F8843L04Aa
+    f.F8843L04Ab = i.F8843L04Ab
+    f.F8843L04Ac = i.F8843L04Ac
+    f.F8843L04B = i.F8843L04B
+    f.F8843L05 = i.F8843TeachersL05
+    f.F8843L06 = i.F8843TeachersL06
+    f.F8843L07a = i.F8843TeachersL07a
+    f.F8843L07b = i.F8843TeachersL07b
+    f.F8843L07c = i.F8843TeachersL07c
+    f.F8843L07d = i.F8843TeachersL07d
+    f.F8843L07e = i.F8843TeachersL07e
+    f.F8843L07f = i.F8843TeachersL07f
+    f.F8843L08 = i.F8843TeachersL08
+    f.F8843L09 = i.F8843StudentsL09
+    f.F8843L10 = i.F8843StudentsL10
+    f.F8843L11a = i.F8843StudentsL11a
+    f.F8843L11b = i.F8843StudentsL11b
+    f.F8843L11c = i.F8843StudentsL11c
+    f.F8843L11d = i.F8843StudentsL11d
+    f.F8843L11e = i.F8843StudentsL11e
+    f.F8843L11f = i.F8843StudentsL11f
+    f.F8843L12 = i.F8843StudentsL12
+    f.F8843L13 = i.F8843StudentsL13
+    f.F8843L14 = i.F8843StudentsL14
+    f.F8843L15 = i.F8843AthletesL15
+    f.F8843L16 = i.F8843AthletesL16
+    f.F8843L16a = i.F8843AthletesL16a
+    f.F8843L17A = i.F8843MedicalL17A
+    f.F8843L17B = i.F8843MedicalL17B
+    f.F8843L17C = i.F8843MedicalL17C
+    f.F8843L18a = i.F8843MedicalL18a
+    f.F8843L18b = i.F8843MedicalL18b
+    f.F8843L18c = i.F8843MedicalL18c
+
     f.save()
 
 # helper function to convert single from 1040NREZ to a true/ false value
@@ -248,7 +297,6 @@ def helper_tax_table(arg1, arg2):
             
     return L15
         
-    
 # generate fdf file for PDFtk use - F1040NREZ
 def generate_fdf():
     
@@ -311,7 +359,7 @@ def generate_fdf():
     # FieldStateOption: 2
     # ---       
     fields = [('topmostSubform[0].Page1[0].f1_01_0_[0]', f.INFOL01),
-            ('topmostSubform[0].Page1[0].f1_02_0_[0]', f.INFOL02), 
+             ('topmostSubform[0].Page1[0].f1_02_0_[0]', f.INFOL02), 
              ('topmostSubform[0].Page1[0].f1_10_0_[0]', f.F1040NREZL03), 
              ('topmostSubform[0].Page1[0].f1_12_0_[0]', f.F1040NREZL04), 
              ('topmostSubform[0].Page1[0].f1_14_0_[0]', f.F1040NREZL05), 
@@ -348,7 +396,19 @@ def generate_fdf():
              ('topmostSubform[0].Page2[0].f2_15_0_[0]', f.F1040NREZSCHOILHa), 
              ('topmostSubform[0].Page2[0].f2_16_0_[0]', f.F1040NREZSCHOILHb), 
              ('topmostSubform[0].Page2[0].f2_17_0_[0]', f.F1040NREZSCHOILHc), 
-             ('topmostSubform[0].Page2[0].f2_100_0_[0]', f.F1040NREZSCHOILIc),]    
+             ('topmostSubform[0].Page2[0].f2_100_0_[0]', f.F1040NREZSCHOILIc),
+             
+             # General Info
+             ('topmostSubform[0].Page1[0].f1_04_0_[0]', f.INFOL04),
+             ('topmostSubform[0].Page1[0].f1_05_0_[0]', f.INFOL05),
+             ('topmostSubform[0].Page1[0].TextField1[0]', f.INFOL06),
+             ('topmostSubform[0].Page1[0].f1_73_0_[0]', f.INFOL07),
+             ('topmostSubform[0].Page1[0].f1_301_0_[0]', f.INFOL08),
+             ('topmostSubform[0].Page1[0].f1_60_0_[0]', f.INFOL10),
+             ('topmostSubform[0].Page1[0].f1_63_0_[0]', f.INFOL11),
+             ('topmostSubform[0].Page1[0].f1_130[0]', f.INFOL12),
+             ('topmostSubform[0].Page1[0].f1_61_0_[0]', f.INFOL15),
+             ('topmostSubform[0].Page1[0].PINComb[0].f1_62_0_[0]', f.INFOL16),]    
     
     fields += boolean_tuple
     
@@ -362,7 +422,60 @@ def generate_fdf():
 def generate_F8843_fdf():
     # TODO: use session ID instead of max ID
     f = modelF8843.objects.all().order_by("-id")[0]
-    fields = [('topmostSubform[0].Page1[0].f1_09_0_[0]',f.F8843L01A),]
+    # fields = [('xxx', f.xxx),]
+    fields = [('topmostSubform[0].Page1[0].f1_09_0_[0]',f.F8843L01A),
+            ('topmostSubform[0].Page1[0].f1_11_0_[0]', f.F8843L01B), 
+            ('topmostSubform[0].Page1[0].f1_12_0_[0]', f.F8843L02), 
+            ('topmostSubform[0].Page1[0].f1_13_0_[0]', f.F8843L03A), 
+            ('topmostSubform[0].Page1[0].f1_14_0_[0]', f.F8843L03B), 
+            ('topmostSubform[0].Page1[0].f1_15_0_[0]', f.F8843L04Aa), 
+            ('topmostSubform[0].Page1[0].f1_16_0_[0]', f.F8843L04Ab), 
+            ('topmostSubform[0].Page1[0].f1_17_0_[0]', f.F8843L04Ac), 
+            ('topmostSubform[0].Page1[0].f1_18_0_[0]', f.F8843L04B), 
+            ('topmostSubform[0].Page1[0].f1_20_0_[0]', f.F8843L05), 
+            ('topmostSubform[0].Page1[0].f1_23_0_[0]', f.F8843L06), 
+            ('topmostSubform[0].Page1[0].f1_25_0_[0]', f.F8843L07a), 
+            ('topmostSubform[0].Page1[0].f1_26_0_[0]', f.F8843L07b), 
+            ('topmostSubform[0].Page1[0].f1_27_0_[0]', f.F8843L07c), 
+            ('topmostSubform[0].Page1[0].f1_28_0_[0]', f.F8843L07d), 
+            ('topmostSubform[0].Page1[0].f1_29_0_[0]', f.F8843L07e), 
+            ('topmostSubform[0].Page1[0].f1_30_0_[0]', f.F8843L07f), 
+            ('topmostSubform[0].Page1[0].f1_32_0_[0]', f.F8843L09), 
+            ('topmostSubform[0].Page1[0].f1_35_0_[0]', f.F8843L10), 
+            ('topmostSubform[0].Page1[0].f1_37_0_[0]', f.F8843L11a), 
+            ('topmostSubform[0].Page1[0].f1_38_0_[0]', f.F8843L11b), 
+            ('topmostSubform[0].Page1[0].f1_39_0_[0]', f.F8843L11c), 
+            ('topmostSubform[0].Page1[0].f1_40_0_[0]', f.F8843L11d), 
+            ('topmostSubform[0].Page1[0].f1_41_0_[0]', f.F8843L11e), 
+            ('topmostSubform[0].Page1[0].f1_42_0_[0]', f.F8843L11f), 
+            ('topmostSubform[0].Page1[0].f1_44_0_[0]', f.F8843L14), 
+            ('topmostSubform[0].Page2[0].f2_02_0_[0]', f.F8843L15), 
+            ('topmostSubform[0].Page2[0].f2_05_0_[0]', f.F8843L16), 
+            ('topmostSubform[0].Page2[0].f2_08_0_[0]', f.F8843L17A), 
+            ('topmostSubform[0].Page2[0].f2_11_0_[0]', f.F8843L17B), 
+            ('topmostSubform[0].Page2[0].f2_12_0_[0]', f.F8843L17C), 
+            ('topmostSubform[0].Page2[0].f2_13_0_[0]', f.F8843L18a), 
+            ('topmostSubform[0].Page2[0].f2_14_0_[0]', f.F8843L18b), 
+            ('topmostSubform[0].Page2[0].f2_15_0_[0]', f.F8843L18c),]
+    
+    boolean_tuple = []
+ 
+    if f.F8843L08 == 0:
+        boolean_tuple+=[('topmostSubform[0].Page1[0].c1_01[1]','No')]
+    else:
+        boolean_tuple+=[('topmostSubform[0].Page1[0].c1_01[0]','Yes')]    
+    
+    if f.F8843L12 == 0:
+        boolean_tuple+=[('topmostSubform[0].Page1[0].c1_02[1]','No')]
+    else:
+        boolean_tuple+=[('topmostSubform[0].Page1[0].c1_02[0]','Yes')]    
+    
+    if f.F8843L13 == 0:
+        boolean_tuple+=[('topmostSubform[0].Page1[0].c1_03[1]','No')]
+    else:
+        boolean_tuple+=[('topmostSubform[0].Page1[0].c1_03[0]','Yes')]    
+    
+    fields += boolean_tuple
     
     fdf = forge_fdf("",fields,[],[],[])
     # TODO: include session ID in fdf file name
