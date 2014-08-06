@@ -53,15 +53,11 @@ class TaxModelForm(forms.ModelForm):
         self.fields['Q03_01_01'].widget.attrs['readonly'] = True
         self.fields['Q03_01_02'].widget.attrs['readonly'] = True
         # Django crispy form
-        self.helper = FormHelper()
-        self.helper.form_id = 'id-exampleForm'
-        self.helper.form_method = 'post'
-        self.helper.form_action = '/app/'
-        self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-4'
-        self.helper.field_class = 'col-lg-8'
-        self.helper.add_input(Submit('submit', 'Submit'))
-        self.helper.layout = Layout(
+        self.helper1 = FormHelper()
+        self.helper1.form_tag = False
+        self.helper1.label_class = 'col-lg-4'
+        self.helper1.field_class = 'col-lg-8'
+        self.helper1.layout = Layout(
             Fieldset(
                 'Pre tax interview questions',
                 'A01', 
@@ -76,6 +72,13 @@ class TaxModelForm(forms.ModelForm):
                 'Q03_01_01',
                 'Q03_01_02',
                 ),
+            )
+            
+        self.helper2 = FormHelper()
+        self.helper2.form_tag = False
+        self.helper2.label_class = 'col-lg-4'
+        self.helper2.field_class = 'col-lg-8'
+        self.helper2.layout = Layout(
             Fieldset(
                 'Income sources',
                 HTML("<p>4. Please select source(s) of income: </p>"),
@@ -115,7 +118,7 @@ class TaxModelForm(forms.ModelForm):
                 'F1099GL11A',
                 ),
             )
-                
+                 
 
     class Meta:
         # associate with ModelInput for automatically generated fields
