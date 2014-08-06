@@ -296,6 +296,13 @@ class modelInput(models.Model):
     F1099GL10bA = models.IntegerField("Box 10b: State identification no.", blank=True, null=True, default=0)
     F1099GL11A = models.IntegerField("Box 11: State income tax withheld", blank=True, null=True, default=0)
 
+    Q05_scholarship = models.IntegerField("Scholarship and fellowship grants excluded", blank = True, null = True)
+    Q05_student_loan = models.IntegerField("Student loan interest paid in current year and amount?", blank = True, null = True)
+    Q06_4137_8919 = models.IntegerField("Unreported social security and Medicare tax (4137/ 8919)", blank = True, null = True)
+    Q06_estimated_tax = models.IntegerField("2013 estimated tax payments and amount applied from 2012 return", blank = True, null = True)
+    Q06_1040C = models.IntegerField("Credit for amount paid with Form 1040-C", blank = True, null = True)
+    
+    
     def __unicode__(self):
         return self.A01 + " " + self.A02
         

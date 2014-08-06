@@ -113,6 +113,13 @@ class TaxModelForm(forms.ModelForm):
                 'F1099GL10aA',
                 'F1099GL10bA',
                 'F1099GL11A',
+                HTML("<p>5. Do you have any exclusions or deductions to income?</p>"),
+                'Q05_scholarship',
+                'Q05_student_loan',
+                HTML("<p>6. How much taxes were withheld from each?</p>"),
+                'Q06_4137_8919',
+                'Q06_estimated_tax',
+                'Q06_1040C',
                 ),
             )
                 
